@@ -1,11 +1,4 @@
 
-
-### 1. **Introduction and Review of Basic Statistics**
-   - **Topic:** Sampling Distributions
-   - **Simulation:** Visualizing the Central Limit Theorem (CLT)
-   - **Learning Objective:** Demonstrate how the sampling distribution of the sample mean approaches a normal distribution as the sample size increases, regardless of the population distribution.
-   - **Este queda pendiente para mas adelante**
-
 ### 2. **The Simple Regression Model** 
    - **Topic:** OLS Estimators
 
@@ -107,3 +100,12 @@
    - **Learning Objective:** Illustrate the process of MLE, comparing it to OLS, and discussing its properties such as consistency and asymptotic normality.
 
 These simulations can be developed incrementally, starting with the foundational concepts and progressively integrating more complex models and econometric techniques.
+
+
+
+
+### Appendix 1. **Introduction and Review of Basic Statistics**
+   - **Topic:** Sampling Distributions
+   - **Simulation:** Visualizing the Central Limit Theorem (CLT)
+   - **Learning Objective:** Demonstrate how the sampling distribution of the sample mean approaches a normal distribution as the sample size increases, regardless of the population distribution.
+   - **Este queda pendiente para mas adelante**
