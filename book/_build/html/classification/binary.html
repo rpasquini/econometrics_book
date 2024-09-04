@@ -1,0 +1,618 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 4: Regression Models for Binary and Categorical Dependent Variables &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'classification/binary';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../econometrics_book_toc.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../econometrics_book_toc.html">
+                    Welcome to Econometrics
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Intro.html">Motivation and Applications of Regression in Research</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulations/beta_variance/beta_variance.html">Distribution of regression estimates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../samplesize.html">Sample Size</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fclassification/binary.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/classification/binary.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 4: Regression Models for Binary and Categorical Dependent Variables</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-challenge-of-linear-regression-with-binary-variables">4.1 The Challenge of Linear Regression with Binary Variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-modeling-the-probability-of-a-binary-outcome">4.2 Logistic Regression: Modeling the Probability of a Binary Outcome</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#probit-regression-another-approach-to-binary-outcomes">4.3 Probit Regression: Another Approach to Binary Outcomes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multinomial-logit-regression-modeling-categorical-outcomes">4.4 Multinomial Logit Regression: Modeling Categorical Outcomes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications-and-considerations">4.5 Applications and Considerations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">4.6 Conclusion</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="chapter-4-regression-models-for-binary-and-categorical-dependent-variables">
+<h1>Chapter 4: Regression Models for Binary and Categorical Dependent Variables<a class="headerlink" href="#chapter-4-regression-models-for-binary-and-categorical-dependent-variables" title="Link to this heading">#</a></h1>
+<p>This chapter delves into the use of regression models when the dependent variable is not continuous but rather takes on a limited number of discrete values, specifically binary and categorical variables. We will explore the limitations of traditional linear regression in these scenarios and introduce alternative models that are better suited for analyzing such data.</p>
+<section id="the-challenge-of-linear-regression-with-binary-variables">
+<h2>4.1 The Challenge of Linear Regression with Binary Variables<a class="headerlink" href="#the-challenge-of-linear-regression-with-binary-variables" title="Link to this heading">#</a></h2>
+<p>Traditional linear regression models assume a continuous dependent variable and a linear relationship between the dependent and independent variables. However, when the dependent variable is binary, meaning it can take on only two values (e.g., 0 or 1), this assumption is violated.</p>
+<p><strong>Limitations of Linear Regression:</strong></p>
+<ul class="simple">
+<li><p><strong>Predicted values outside the range of the dependent variable:</strong> Linear regression can produce predicted values that fall outside the 0-1 range of a binary variable, leading to meaningless interpretations.</p></li>
+<li><p><strong>Non-linear relationship:</strong> The relationship between a binary dependent variable and independent variables is often non-linear, which cannot be adequately captured by a straight line.</p></li>
+<li><p><strong>Non-normal error distribution:</strong> The residuals, or the difference between observed and predicted values, are not normally distributed, violating a key assumption of linear regression.</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<p>Consider a scenario where we are trying to understand factors influencing the decision of an individual to use public transportation. We define a binary dependent variable: “1” if the individual uses public transportation and “0” otherwise. We want to investigate the relationship between income and this decision.</p>
+<p>Plotting income against the binary variable will likely result in two distinct clusters of data points, one concentrated at 0 and the other at 1. Fitting a linear regression model to this data would result in a straight line that may capture a general negative relationship between income and public transportation usage. However, the model will face the aforementioned limitations:</p>
+<ul class="simple">
+<li><p>For high-income individuals, the linear model might predict negative probabilities, which are impossible.</p></li>
+<li><p>The model might predict probabilities exceeding 1, again defying the probabilistic nature of the outcome.</p></li>
+<li><p>The error distribution will exhibit jumps, deviating from the assumed normality.</p></li>
+</ul>
+<p>These shortcomings highlight the need for alternative models specifically designed for binary dependent variables.</p>
+</section>
+<section id="logistic-regression-modeling-the-probability-of-a-binary-outcome">
+<h2>4.2 Logistic Regression: Modeling the Probability of a Binary Outcome<a class="headerlink" href="#logistic-regression-modeling-the-probability-of-a-binary-outcome" title="Link to this heading">#</a></h2>
+<p>To overcome the limitations of linear regression, we turn to <strong>logistic regression</strong>, a model that captures the non-linear relationship between a binary dependent variable and independent variables.</p>
+<p><strong>The Logistic Function:</strong></p>
+<p>Logistic regression uses the <strong>logistic function</strong>, also known as the sigmoid function, to transform the linear combination of independent variables into a probability. The logistic function takes values between 0 and 1, ensuring that predicted probabilities remain within the appropriate range.</p>
+<p><strong>The Model:</strong></p>
+<p>The logistic regression model is defined as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>P(Y = 1 | X) = F(β₀ + β₁X₁ + β₂X₂ + ... + βₙXₙ)
+</pre></div>
+</div>
+<p>where:</p>
+<ul class="simple">
+<li><p>P(Y = 1 | X) is the probability of the outcome being 1 (e.g., using public transportation) given the values of the independent variables X.</p></li>
+<li><p>F() represents the logistic function:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">F</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">e</span><span class="o">^</span><span class="p">(</span><span class="o">-</span><span class="n">z</span><span class="p">))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>β₀, β₁, β₂, … , βₙ are the regression coefficients.</p></li>
+</ul>
+<p><strong>Interpreting Coefficients:</strong></p>
+<p>The coefficients in logistic regression do not directly represent the change in the dependent variable (as in linear regression). Instead, they measure the change in the <strong>log odds</strong> of the outcome being 1 for a unit change in the corresponding independent variable.</p>
+<p><strong>Odds Ratio:</strong></p>
+<p>The <strong>odds ratio</strong> represents the ratio of the odds of the outcome being 1 for two different values of an independent variable. The odds ratio is calculated by exponentiating the corresponding coefficient.</p>
+<p><strong>Example:</strong></p>
+<p>Continuing our public transportation example, if the coefficient for income is 0.0001, the odds ratio would be exp(0.0001) = 1.0001. This means that for a $1,000 increase in income, the odds of using public transportation increase by a factor of 1.0001.</p>
+</section>
+<section id="probit-regression-another-approach-to-binary-outcomes">
+<h2>4.3 Probit Regression: Another Approach to Binary Outcomes<a class="headerlink" href="#probit-regression-another-approach-to-binary-outcomes" title="Link to this heading">#</a></h2>
+<p><strong>Probit Regression:</strong></p>
+<p>Another common model used for binary outcomes is <strong>probit regression</strong>, which utilizes the <strong>cumulative distribution function (CDF) of the standard normal distribution</strong> as the transformation function.</p>
+<p><strong>The Model:</strong></p>
+<p>The probit model is defined as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>P(Y = 1 | X) = Φ(β₀ + β₁X₁ + β₂X₂ + ... + βₙXₙ)
+</pre></div>
+</div>
+<p>where:</p>
+<ul class="simple">
+<li><p>Φ() represents the CDF of the standard normal distribution.</p></li>
+</ul>
+<p><strong>Interpretation:</strong></p>
+<p>The interpretation of coefficients in probit regression is similar to logistic regression, measuring the change in the log odds of the outcome being 1. However, the specific interpretation differs slightly due to the different transformation function.</p>
+<p><strong>Choice Between Logit and Probit:</strong></p>
+<p>In most practical applications, both logit and probit models produce very similar results. The choice between the two often depends on the specific context and research question.</p>
+<p><strong>Advantages of Logit:</strong></p>
+<ul class="simple">
+<li><p>Simpler mathematical formulation, leading to faster computation.</p></li>
+</ul>
+<p><strong>Advantages of Probit:</strong></p>
+<ul class="simple">
+<li><p>More closely aligned with the assumption of a normal distribution in certain theoretical contexts.</p></li>
+</ul>
+</section>
+<section id="multinomial-logit-regression-modeling-categorical-outcomes">
+<h2>4.4 Multinomial Logit Regression: Modeling Categorical Outcomes<a class="headerlink" href="#multinomial-logit-regression-modeling-categorical-outcomes" title="Link to this heading">#</a></h2>
+<p>When the dependent variable has more than two categories, we employ <strong>multinomial logit regression</strong> to model the probability of each category.</p>
+<p><strong>The Model:</strong></p>
+<p>Multinomial logit regression works by selecting a base category and estimating the probability of transitioning to other categories relative to this base. The model is essentially a series of logits for each category, with the probability of a specific category being calculated as a function of the sum of probabilities for all other categories.</p>
+<p><strong>Interpreting Coefficients:</strong></p>
+<p>Coefficients in multinomial logit regression measure the change in the log odds of belonging to a specific category relative to the base category for a unit change in the corresponding independent variable.</p>
+<p><strong>Example:</strong></p>
+<p>Imagine analyzing data on individuals’ neighborhood preferences in a city with multiple neighborhoods. We can define a categorical dependent variable representing the chosen neighborhood. By selecting one neighborhood as the base, the model can estimate the odds ratios for choosing each other neighborhood compared to the base neighborhood.</p>
+<p><strong>Advantages:</strong></p>
+<ul class="simple">
+<li><p>Allows for analyzing the probability of multiple discrete outcomes.</p></li>
+<li><p>Provides a framework for understanding relative preferences across categories.</p></li>
+</ul>
+</section>
+<section id="applications-and-considerations">
+<h2>4.5 Applications and Considerations<a class="headerlink" href="#applications-and-considerations" title="Link to this heading">#</a></h2>
+<p><strong>Applications:</strong></p>
+<p>Regression models for binary and categorical dependent variables are widely used in various fields, including:</p>
+<ul class="simple">
+<li><p><strong>Social sciences:</strong> Analyzing factors influencing voting behavior, educational attainment, or health outcomes.</p></li>
+<li><p><strong>Economics:</strong> Understanding consumer choice, market segmentation, or the adoption of new technologies.</p></li>
+<li><p><strong>Public health:</strong> Studying the effectiveness of interventions or identifying risk factors for diseases.</p></li>
+</ul>
+<p><strong>Important Considerations:</strong></p>
+<ul class="simple">
+<li><p><strong>Data preparation:</strong> Ensure that categorical variables are properly encoded as dummies or other appropriate formats.</p></li>
+<li><p><strong>Model selection:</strong> Choose the appropriate model based on the nature of the dependent variable and the research question.</p></li>
+<li><p><strong>Interpreting coefficients:</strong> Understand the specific interpretation of coefficients in logistic and probit models, and be mindful of the relative nature of coefficients in multinomial logit regression.</p></li>
+<li><p><strong>Model diagnostics:</strong> Check the model’s assumptions and evaluate its performance using appropriate metrics.</p></li>
+</ul>
+</section>
+<section id="conclusion">
+<h2>4.6 Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h2>
+<p>This chapter provided an overview of regression models for analyzing binary and categorical dependent variables. We discussed the limitations of linear regression for such data and explored the advantages of logistic regression, probit regression, and multinomial logit regression. These models offer powerful tools for understanding the factors influencing discrete outcomes and making predictions about individual behavior and preferences. By understanding the assumptions, interpretations, and applications of these models, researchers can gain valuable insights into complex phenomena involving binary and categorical data.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./classification"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-challenge-of-linear-regression-with-binary-variables">4.1 The Challenge of Linear Regression with Binary Variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-modeling-the-probability-of-a-binary-outcome">4.2 Logistic Regression: Modeling the Probability of a Binary Outcome</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#probit-regression-another-approach-to-binary-outcomes">4.3 Probit Regression: Another Approach to Binary Outcomes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multinomial-logit-regression-modeling-categorical-outcomes">4.4 Multinomial Logit Regression: Modeling Categorical Outcomes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications-and-considerations">4.5 Applications and Considerations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">4.6 Conclusion</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Ricardo A. Pasquini
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,636 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>1. Introduction and Review of Basic Statistics &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'simulations_plan';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="econometrics_book_toc.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="econometrics_book_toc.html">
+                    Welcome to Econometrics
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Intro.html">Motivation and Applications of Regression in Research</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulations/beta_variance/beta_variance.html">Distribution of regression estimates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="samplesize.html">Sample Size</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fsimulations_plan.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/simulations_plan.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>1. Introduction and Review of Basic Statistics</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">1. <strong>Introduction and Review of Basic Statistics</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#the-simple-regression-model">2. <strong>The Simple Regression Model</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-regression-analysis-estimation">3. <strong>Multiple Regression Analysis: Estimation</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-regression-analysis-inference">4. <strong>Multiple Regression Analysis: Inference</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#asymptotics-and-large-sample-properties-of-ols">5. <strong>Asymptotics and Large-Sample Properties of OLS</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#heteroskedasticity">6. <strong>Heteroskedasticity</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#autocorrelation">7. <strong>Autocorrelation</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#endogeneity-and-instrumental-variables">8. <strong>Endogeneity and Instrumental Variables</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#simultaneous-equations-models">9. <strong>Simultaneous Equations Models</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#panel-data-models">10. <strong>Panel Data Models</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#limited-dependent-variable-models">11. <strong>Limited Dependent Variable Models</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-econometrics">12. <strong>Time-Series Econometrics</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#forecasting">13. <strong>Forecasting</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-topics-nonlinear-models-and-maximum-likelihood-estimation">14. <strong>Advanced Topics: Nonlinear Models and Maximum Likelihood Estimation</strong></a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="introduction-and-review-of-basic-statistics">
+<h1>1. <strong>Introduction and Review of Basic Statistics</strong><a class="headerlink" href="#introduction-and-review-of-basic-statistics" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Topic:</strong> Sampling Distributions</p></li>
+<li><p><strong>Simulation:</strong> Visualizing the Central Limit Theorem (CLT)</p></li>
+<li><p><strong>Learning Objective:</strong> Demonstrate how the sampling distribution of the sample mean approaches a normal distribution as the sample size increases, regardless of the population distribution.</p></li>
+</ul>
+</section>
+<section id="the-simple-regression-model">
+<h1>2. <strong>The Simple Regression Model</strong><a class="headerlink" href="#the-simple-regression-model" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Topic:</strong> OLS Estimators</p></li>
+<li><p><strong>Simulation:</strong> Generating Random Data to Estimate OLS Coefficients</p></li>
+<li><p><strong>Learning Objective:</strong> Illustrate the properties of OLS estimators, including unbiasedness, consistency, and the role of sample size in estimation accuracy.</p></li>
+</ul>
+</section>
+<section id="multiple-regression-analysis-estimation">
+<h1>3. <strong>Multiple Regression Analysis: Estimation</strong><a class="headerlink" href="#multiple-regression-analysis-estimation" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Topic:</strong> Multicollinearity</p></li>
+<li><p><strong>Simulation:</strong> Generating Data with Varying Degrees of Multicollinearity</p></li>
+<li><p><strong>Learning Objective:</strong> Show the impact of multicollinearity on coefficient estimates, standard errors, and overall model interpretation.</p></li>
+</ul>
+</section>
+<section id="multiple-regression-analysis-inference">
+<h1>4. <strong>Multiple Regression Analysis: Inference</strong><a class="headerlink" href="#multiple-regression-analysis-inference" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Topic:</strong> Hypothesis Testing in Regression</p></li>
+<li><p><strong>Simulation:</strong> Simulating the Distribution of Test Statistics under Null and Alternative Hypotheses</p></li>
+<li><p><strong>Learning Objective:</strong> Explore the power of tests, Type I and Type II errors, and how sample size and effect size affect hypothesis testing.</p></li>
+</ul>
+</section>
+<section id="asymptotics-and-large-sample-properties-of-ols">
+<h1>5. <strong>Asymptotics and Large-Sample Properties of OLS</strong><a class="headerlink" href="#asymptotics-and-large-sample-properties-of-ols" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Topic:</strong> Law of Large Numbers and Central Limit Theorem for OLS Estimators</p></li>
+<li><p><strong>Simulation:</strong> Simulating Large Samples and Observing the Convergence of OLS Estimates</p></li>
+<li><p><strong>Learning Objective:</strong> Demonstrate how OLS estimators converge in probability to the true parameter values and how their distribution approximates normality as sample size increases.</p></li>
+</ul>
+</section>
+<section id="heteroskedasticity">
+<h1>6. <strong>Heteroskedasticity</strong><a class="headerlink" href="#heteroskedasticity" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Topic:</strong> Consequences and Detection of Heteroskedasticity</p></li>
+<li><p><strong>Simulation:</strong> Simulating Data with Varying Levels of Heteroskedasticity</p></li>
+<li><p><strong>Learning Objective:</strong> Illustrate how heteroskedasticity affects the efficiency of OLS estimates, and demonstrate tests like the Breusch-Pagan and White tests.</p></li>
+</ul>
+</section>
+<section id="autocorrelation">
+<h1>7. <strong>Autocorrelation</strong><a class="headerlink" href="#autocorrelation" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Topic:</strong> Consequences and Detection of Autocorrelation</p></li>
+<li><p><strong>Simulation:</strong> Generating Time-Series Data with Different Autocorrelation Structures</p></li>
+<li><p><strong>Learning Objective:</strong> Show the impact of autocorrelation on OLS estimates and illustrate tests like the Durbin-Watson test.</p></li>
+</ul>
+</section>
+<section id="endogeneity-and-instrumental-variables">
+<h1>8. <strong>Endogeneity and Instrumental Variables</strong><a class="headerlink" href="#endogeneity-and-instrumental-variables" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Topic:</strong> Bias from Endogeneity</p></li>
+<li><p><strong>Simulation:</strong> Simulating the Effects of Endogenous Regressors on OLS Estimates</p></li>
+<li><p><strong>Learning Objective:</strong> Explain the bias introduced by endogenous variables and demonstrate how instrumental variables (IV) can be used to obtain consistent estimates.</p></li>
+</ul>
+</section>
+<section id="simultaneous-equations-models">
+<h1>9. <strong>Simultaneous Equations Models</strong><a class="headerlink" href="#simultaneous-equations-models" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Topic:</strong> Identification and Estimation in Simultaneous Equations</p></li>
+<li><p><strong>Simulation:</strong> Simulating Systems of Equations with Identification Issues</p></li>
+<li><p><strong>Learning Objective:</strong> Illustrate the concepts of identification and the use of two-stage least squares (2SLS) in estimating simultaneous equation models.</p></li>
+</ul>
+</section>
+<section id="panel-data-models">
+<h1>10. <strong>Panel Data Models</strong><a class="headerlink" href="#panel-data-models" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Topic:</strong> Fixed Effects vs. Random Effects</p></li>
+<li><p><strong>Simulation:</strong> Simulating Panel Data with Individual-Specific Effects</p></li>
+<li><p><strong>Learning Objective:</strong> Compare fixed effects and random effects estimators, showing how each handles individual-specific heterogeneity.</p></li>
+</ul>
+</section>
+<section id="limited-dependent-variable-models">
+<h1>11. <strong>Limited Dependent Variable Models</strong><a class="headerlink" href="#limited-dependent-variable-models" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Topic:</strong> Binary Response Models (Probit/Logit)</p></li>
+<li><p><strong>Simulation:</strong> Simulating Binary Outcomes and Estimating Probit/Logit Models</p></li>
+<li><p><strong>Learning Objective:</strong> Show the difference between linear probability models and nonlinear models like Probit and Logit, focusing on the interpretation of coefficients and prediction.</p></li>
+</ul>
+</section>
+<section id="time-series-econometrics">
+<h1>12. <strong>Time-Series Econometrics</strong><a class="headerlink" href="#time-series-econometrics" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Topic:</strong> Stationarity and Unit Roots</p></li>
+<li><p><strong>Simulation:</strong> Generating Non-Stationary and Stationary Time-Series Data</p></li>
+<li><p><strong>Learning Objective:</strong> Illustrate the concept of stationarity, unit roots, and how these properties affect the analysis and interpretation of time-series models.</p></li>
+</ul>
+</section>
+<section id="forecasting">
+<h1>13. <strong>Forecasting</strong><a class="headerlink" href="#forecasting" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Topic:</strong> Model Selection and Forecasting Accuracy</p></li>
+<li><p><strong>Simulation:</strong> Simulating Forecasts from Different Models and Comparing Their Performance</p></li>
+<li><p><strong>Learning Objective:</strong> Demonstrate the trade-offs between bias and variance in forecasting and how to evaluate forecast accuracy using different metrics.</p></li>
+</ul>
+</section>
+<section id="advanced-topics-nonlinear-models-and-maximum-likelihood-estimation">
+<h1>14. <strong>Advanced Topics: Nonlinear Models and Maximum Likelihood Estimation</strong><a class="headerlink" href="#advanced-topics-nonlinear-models-and-maximum-likelihood-estimation" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Topic:</strong> Maximum Likelihood Estimation (MLE)</p></li>
+<li><p><strong>Simulation:</strong> Estimating Parameters Using MLE on Simulated Data</p></li>
+<li><p><strong>Learning Objective:</strong> Illustrate the process of MLE, comparing it to OLS, and discussing its properties such as consistency and asymptotic normality.</p></li>
+</ul>
+<p>These simulations can be developed incrementally, starting with the foundational concepts and progressively integrating more complex models and econometric techniques.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">1. <strong>Introduction and Review of Basic Statistics</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#the-simple-regression-model">2. <strong>The Simple Regression Model</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-regression-analysis-estimation">3. <strong>Multiple Regression Analysis: Estimation</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-regression-analysis-inference">4. <strong>Multiple Regression Analysis: Inference</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#asymptotics-and-large-sample-properties-of-ols">5. <strong>Asymptotics and Large-Sample Properties of OLS</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#heteroskedasticity">6. <strong>Heteroskedasticity</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#autocorrelation">7. <strong>Autocorrelation</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#endogeneity-and-instrumental-variables">8. <strong>Endogeneity and Instrumental Variables</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#simultaneous-equations-models">9. <strong>Simultaneous Equations Models</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#panel-data-models">10. <strong>Panel Data Models</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#limited-dependent-variable-models">11. <strong>Limited Dependent Variable Models</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-econometrics">12. <strong>Time-Series Econometrics</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#forecasting">13. <strong>Forecasting</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-topics-nonlinear-models-and-maximum-likelihood-estimation">14. <strong>Advanced Topics: Nonlinear Models and Maximum Likelihood Estimation</strong></a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Ricardo A. Pasquini
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
