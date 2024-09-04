@@ -1,6 +1,7 @@
-# Econometrics with Simulations
+# Econometrics with Simulations Book
 
-This is the repo of the book.
-
-Coming soon: add a requirements.txt with all the requirements of the repo.
+* Coming soon: A requirements.txt with all the requirements of the repo.
+* The simulations folder contains the code of the simulations.
+* The plan for each simulations will be discussed in a specific issue.
+* To contribute, push the simulation to a specific branch. 
 
