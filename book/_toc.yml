@@ -4,13 +4,14 @@
 format: jb-book
 root: econometrics_book_toc
 chapters:
-- file: Intro
-- file: regresion_simple/1_simple_regresion.md
+- file: Intro.md
+- file: ch1_regresion_simple/1_simple_regresion.md
   sections:
-  - file: regresion_simple/2_colab_introduction.md
-- file: regresion_simple/3_statistical_properties.md
-- file: regresion_simple/4_interpreting_regression_results.md
-- file: regresion_simple/5_assumptions_and_diagnostics.md
-- file: regresion_simple/6_case_study_diagnostics.md
+  - file: ch1_regresion_simple/2_colab_introduction.md
+- file: ch1_regresion_simple/3_statistical_properties.md
+- file: ch1_regresion_simple/4_interpreting_regression_results.md
+- file: ch1_regresion_simple/5_assumptions_and_diagnostics.md
+- file: ch1_regresion_simple/6_case_study_diagnostics.md
+- file: ch2_regresion_multiple/1_reg_multiple_intro.md
 - file: simulations/beta_variance/beta_variance.ipynb
 - file: samplesize

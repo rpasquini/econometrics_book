@@ -1,26 +1,55 @@
 
-
-### 1. **Introduction and Review of Basic Statistics**
-   - **Topic:** Sampling Distributions
-   - **Simulation:** Visualizing the Central Limit Theorem (CLT)
-   - **Learning Objective:** Demonstrate how the sampling distribution of the sample mean approaches a normal distribution as the sample size increases, regardless of the population distribution.
-
-### 2. **The Simple Regression Model**
+### 2. **The Simple Regression Model** 
    - **Topic:** OLS Estimators
-   - **Simulation:** Generating Random Data to Estimate OLS Coefficients
-   - **Learning Objective:** Illustrate the properties of OLS estimators, including unbiasedness, consistency, and the role of sample size in estimation accuracy.
 
-### 3. **Multiple Regression Analysis: Estimation**
+   - **Simulation:** Generating Random Data to Estimate OLS Coefficients
+
+   - **Learning Objective:** Illustrate the properties of OLS estimators, including unbiasedness, and the determinants of the variance of the estimators. 
+
+   - Idea: The dashboard shows the distribution of the estimation. Allows changing the $\sigma$ and $SST_x$ . Computes the mean and the sampling variance as estimates of E[\beta] and Var[\beta]
+
+   - **Lo toma Fran y se discute entre grupo.**
+
+     ## 2.1 Unbiased estimation of /sigma^2
+
+     * Similarly to the betas, simulate the distribution of $\hat{\sigma}. See Wooldridge page 49.
+
+     * **Lo puede tomar alguno Juan/Benjamin/Octi**
+     
+       
+
+# 3. **Multiple Regression Analysis**
+
+
+
+## 3.1 Multicollinearity
+
    - **Topic:** Multicollinearity
    - **Simulation:** Generating Data with Varying Degrees of Multicollinearity
    - **Learning Objective:** Show the impact of multicollinearity on coefficient estimates, standard errors, and overall model interpretation.
+   - Using a model with two variables, allow changing the degree of correlation. As the correlation changes show the effects on the variability of estimates. 
+   - **Lo puede tomar alguno Juan/Benjamin/Octi**
+
+## 3.2 Omitted variable bias
+
+* Allow changing the relationship between the omitted variable , the dependent and the independent variable.
+* **Lo puede tomar alguno Juan/Benjamin/Octi**
 
 ### 4. **Multiple Regression Analysis: Inference**
    - **Topic:** Hypothesis Testing in Regression
+
    - **Simulation:** Simulating the Distribution of Test Statistics under Null and Alternative Hypotheses
+
    - **Learning Objective:** Explore the power of tests, Type I and Type II errors, and how sample size and effect size affect hypothesis testing.
 
+     * **Mostrariamos primero el ejemplo que hicimos para el blog de beta Sigma. Despues lo asignamos.**
+
+       
+
+<u>Los siguientes van a la segunda etapa:</u>
+
 ### 5. **Asymptotics and Large-Sample Properties of OLS**
+
    - **Topic:** Law of Large Numbers and Central Limit Theorem for OLS Estimators
    - **Simulation:** Simulating Large Samples and Observing the Convergence of OLS Estimates
    - **Learning Objective:** Demonstrate how OLS estimators converge in probability to the true parameter values and how their distribution approximates normality as sample size increases.
@@ -71,3 +100,12 @@
    - **Learning Objective:** Illustrate the process of MLE, comparing it to OLS, and discussing its properties such as consistency and asymptotic normality.
 
 These simulations can be developed incrementally, starting with the foundational concepts and progressively integrating more complex models and econometric techniques.
+
+
+
+
+### Appendix 1. **Introduction and Review of Basic Statistics**
+   - **Topic:** Sampling Distributions
+   - **Simulation:** Visualizing the Central Limit Theorem (CLT)
+   - **Learning Objective:** Demonstrate how the sampling distribution of the sample mean approaches a normal distribution as the sample size increases, regardless of the population distribution.
+   - **Este queda pendiente para mas adelante**
