@@ -11,12 +11,12 @@
 
 ## 1. Dashboards deployment
 
-* Once dashboards are ready for production, they should be added to simulations/launcher.py . This python file automatically deploys the dashboards to specified ports. So from the root call:
-``python simulations/launcher.py``
+* Once dashboards are ready for production, they should be added to simulations/launcher.py . This python file automatically deploys the dashboards to specified ports. So from the simulations folder call:
+``python launcher.py``
 
 ## 2. Book deployment
 
 * In development mode just look for the book in html form in book/_build
-* You can build your own development version of the book calling (from the root) 
+* Alternatively, you can build your own development version of the book calling (from the root) 
 
 ``jupyter--book build book``
