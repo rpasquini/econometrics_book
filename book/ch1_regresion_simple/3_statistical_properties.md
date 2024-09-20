@@ -27,3 +27,8 @@ Regression analysis, at its core, attempts to uncover the relationship between a
 - These properties are crucial for drawing valid conclusions about the relationships between variables and for making informed decisions based on our findings.
 
 By understanding the statistical properties of estimated coefficients, researchers can move beyond simply calculating a regression line to make more informed inferences about the relationships between variables and to draw meaningful conclusions from their data.
+
+
+
+<iframe src="http://127.0.0.1:8050/" width="100%" height="600px">
+</iframe>

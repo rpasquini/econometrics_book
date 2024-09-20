@@ -468,5 +468,6 @@ app.layout = dmc.MantineProvider(
 )
 
 if __name__ == "__main__":
-    port = int(os.environ.get("DASH_PORT"))
+    #app.run_server(debug=True)
+    port = int(os.environ.get('DASH_PORT'))
     app.run_server(debug=False, port=port)
