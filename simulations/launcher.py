@@ -12,8 +12,9 @@ def run_dash_app(script_name, port):
 if __name__ == "__main__":
     # Define the dashboards and their ports
     dashboards = [
-        ("unbiasedness_simulation.py", 8050),
-        ("unbiasedness_simulation_copy.py", 8060),
+        ("unbiasedness_simulation.py", 8001),
+        ("multicollinearity/multicollinearity.py", 8002),
+        ("obv/obv.py", 8003),
     ]
 
     # Start processes for each dashboard
