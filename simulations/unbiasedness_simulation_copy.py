@@ -30,7 +30,7 @@ external_stylesheets = [
 
 style = {
     # "height": 100,
-    "width": "80%",
+    "width": "100%",
     # "border": f"1px solid {dmc.DEFAULT_THEME['colors']['indigo'][4]}",
     "marginTop": 20,
     "marginBottom": 20,
@@ -468,6 +468,6 @@ app.layout = dmc.MantineProvider(
 )
 
 if __name__ == "__main__":
-    #app.run_server(debug=True)
-    port = int(os.environ.get('DASH_PORT'))
+    # app.run_server(debug=True)
+    port = int(os.environ.get("DASH_PORT"))
     app.run_server(debug=False, port=port)
