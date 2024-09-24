@@ -251,3 +251,21 @@ def build_layout(title: str, content):
             )
         ],
     )
+
+
+def create_stats_table(stats, true_value, parameter_name):
+    return dmc.Table(
+        striped=True,
+        highlightOnHover=True,
+        # withTableBorder=True,
+        withColumnBorders=True,
+        data={
+            # "caption": "Estadísticas de los Estimadores",
+            "head": ["Estadística", parameter_name],
+            "body": [
+                ["Media", f"{stats['mean']:.4f}"],
+                ["Varianza", f"{stats['var']:.4f}"],
+                ["Valor verdadero", f"{true_value:.4f}"],
+            ],
+        },
+    )

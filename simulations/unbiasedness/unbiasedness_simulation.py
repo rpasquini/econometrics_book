@@ -9,7 +9,9 @@ import plotly.express as px
 import statsmodels.api as sm
 import os
 import pprint
+import sys
 
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from template_dashboard import (
     get_external_stylesheets,
     style,
@@ -21,6 +23,7 @@ from template_dashboard import (
     update_layout,
     main_structure,
     build_layout,
+    create_stats_table,
 )
 
 ######## CONFIGURACIÓN DE ESTILO  ##############
@@ -29,23 +32,6 @@ dash._dash_renderer._set_react_version("18.2.0")
 
 
 ############### FUNCIONES PROPIAS DE ESTA SIMULACIÓN ################
-# Función para crear la tabla de estadísticas
-def create_stats_table(stats, true_value, parameter_name):
-    return dmc.Table(
-        striped=True,
-        highlightOnHover=True,
-        # withTableBorder=True,
-        withColumnBorders=True,
-        data={
-            # "caption": "Estadísticas de los Estimadores",
-            "head": ["Estadística", parameter_name],
-            "body": [
-                ["Media", f"{stats['mean']:.4f}"],
-                ["Varianza", f"{stats['var']:.4f}"],
-                ["Valor verdadero", f"{true_value:.4f}"],
-            ],
-        },
-    )
 
 
 # Funciones para la lógica de la aplicación
@@ -235,7 +221,7 @@ sliders_stack = dmc.Stack(
     gap="xl",
 )
 
-
+########## ESTRUCTURA ##################3
 resumen_content = main_structure(
     menu=markdown_description,
     structure=[
@@ -260,6 +246,7 @@ resumen_content = main_structure(
 )
 
 
+################# CALLBACK ###############
 @app.callback(
     Output("histogram_estimator_beta_0", "figure"),
     Output("histogram_estimator_beta_1", "figure"),
@@ -304,12 +291,14 @@ def update_histogram(error_std, x_std):
     return fig_histogram_0, fig_histogram_1, fig_scatter, beta_0_table, beta_1_table
 
 
+############ LAYOUT ##################
 app.layout = build_layout(
     title="Simulación OLS: Insesgadez y Varianza de Estimadores",
     content=resumen_content,
 )
 
-
+############ RUN SERVER #################
 if __name__ == "__main__":
     port = int(os.environ.get("DASH_PORT"))
     app.run_server(debug=False, port=port)
+    # app.run_server(debug=False, port=8070)
