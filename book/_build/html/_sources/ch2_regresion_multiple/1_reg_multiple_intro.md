@@ -60,6 +60,10 @@ A crucial challenge in multiple regression analysis arises when variables are *
 
 To illustrate this, consider the case of a model that includes both the number of bedrooms and the total surface area of a property. These variables are likely to be correlated, as properties with more bedrooms typically have larger surface areas.
 
+<iframe src="http://18.231.246.86:8002/" width="100%" height="600px">
+</iframe>
+
+
 In this scenario, the model might struggle to accurately determine the independent contribution of each variable to the rental value. The coefficients might fluctuate wildly with small changes in the data, leading to unreliable inferences about the effects of bedrooms and surface area on rental values.
 
 #### Strategies for Handling Collinearity

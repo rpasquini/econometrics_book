@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -456,6 +456,8 @@ document.write(`
 <p><strong>Perfect collinearity</strong>, where one variable is a perfect linear function of another variable, makes it impossible to estimate the model, as the model becomes mathematically unstable.</p>
 <p><strong>High collinearity</strong>, while not completely breaking the model, can lead to unstable coefficients. These coefficients can be highly sensitive to small changes in the data, making them difficult to interpret and leading to unreliable inferences.</p>
 <p>To illustrate this, consider the case of a model that includes both the number of bedrooms and the total surface area of a property. These variables are likely to be correlated, as properties with more bedrooms typically have larger surface areas.</p>
+<iframe src="http://18.231.246.86:8002/" width="100%" height="600px">
+</iframe>
 <p>In this scenario, the model might struggle to accurately determine the independent contribution of each variable to the rental value. The coefficients might fluctuate wildly with small changes in the data, leading to unreliable inferences about the effects of bedrooms and surface area on rental values.</p>
 <section id="strategies-for-handling-collinearity">
 <h3>Strategies for Handling Collinearity<a class="headerlink" href="#strategies-for-handling-collinearity" title="Link to this heading">#</a></h3>
