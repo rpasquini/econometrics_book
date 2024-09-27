@@ -287,5 +287,5 @@ app.layout = build_layout(
 ############ RUN SERVER #################
 if __name__ == "__main__":
     port = int(os.environ.get("DASH_PORT"))
-    app.run_server(debug=False, port=port)
+    app.run_server(host="0.0.0.0", debug=False, port=port)
     # app.run_server(debug=False, port=8080)
