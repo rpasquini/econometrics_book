@@ -191,8 +191,8 @@ simulation_content = """
          * Desviación estándar = 10
        - $\\epsilon$ (error): Generada con la distribución seleccionada por el usuario (dropdown_value).
          * Se asume un parámetro de escala = 10 para todas las distribuciones.
-       - Y: Calculada usando la ecuación del modelo
-         * $Y = 10 + 3X + \\epsilon (\\beta_0 = 10, \\beta_1 = 3)$
+       - Y: Calculada usando la ecuación del modelo. Notar que en esta simulación, se asume  $\\beta_1 = 0$ ya que supondremos que nos interesa evaluar la hipotesis de efecto nulo.
+         * $Y = 10 + 3X + \\epsilon (\\beta_0 = 10, \\beta_1 = 0)$
 
 2. **Estimación y cálculo de t-estadísticos:**
        - Para cada muestra, se estiman $\\beta_0$ y $\\beta_1$ usando OLS.
@@ -347,7 +347,7 @@ resumen_content = main_structure(
 def update_histogram(error_dist, x_std, sample_size):
     # Parámetros de la simulación
     n_samples = 500
-    beta_0, beta_1 = 10, 3
+    beta_0, beta_1 = 10, 0
     x_mean = 10
     alpha = 0.05
 
