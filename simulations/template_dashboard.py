@@ -107,10 +107,49 @@ def create_menu(font_weight=600, *args: dict) -> dmc.Accordion:
 
 
 # Función par crear gráfico
-def create_graph(id, title):
+""" def create_graph(id, title):
     return dmc.Stack(
         [
             dmc.Text(title, fw=800),
+            dcc.Graph(id=id, style={"height": "100%", "width": "100%"}),
+        ],
+        style={"height": "100%"},
+        justify="flex-start",
+        gap="xs",
+    ) """
+
+
+def create_graph(id, title, information=""):
+    return dmc.Stack(
+        [
+            dmc.Group(
+                [
+                    dmc.Text(title, fw=800),
+                    dmc.HoverCard(
+                        withArrow=True,
+                        width=200,
+                        shadow="md",
+                        children=[
+                            dmc.HoverCardTarget(
+                                dmc.ThemeIcon(
+                                    "?",
+                                    size="sm",
+                                    radius="xl",
+                                    color="gray",
+                                    variant="light",
+                                )
+                            ),
+                            dmc.HoverCardDropdown(
+                                dmc.Text(
+                                    information,
+                                    size="sm",
+                                )
+                            ),
+                        ],
+                    ),
+                ],
+                # spacing="xs",
+            ),
             dcc.Graph(id=id, style={"height": "100%", "width": "100%"}),
         ],
         style={"height": "100%"},
@@ -268,4 +307,36 @@ def create_stats_table(stats, true_value, parameter_name):
                 ["Valor verdadero", f"{true_value:.4f}"],
             ],
         },
+    )
+
+
+def card_title_w_information_hovercard(title: str, information: str):
+
+    return dmc.Group(
+        [
+            dmc.Text(title, fw=800),
+            dmc.HoverCard(
+                withArrow=True,
+                width=200,
+                shadow="md",
+                children=[
+                    dmc.HoverCardTarget(
+                        dmc.ThemeIcon(
+                            "?",
+                            size="sm",
+                            radius="xl",
+                            color="gray",
+                            variant="light",
+                        )
+                    ),
+                    dmc.HoverCardDropdown(
+                        dmc.Text(
+                            information,
+                            size="sm",
+                        )
+                    ),
+                ],
+            ),
+        ],
+        # spacing="xs",
     )
