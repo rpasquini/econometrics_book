@@ -300,11 +300,17 @@ def create_stats_table(stats, true_value, parameter_name):
         withColumnBorders=True,
         data={
             # "caption": "Estadísticas de los Estimadores",
-            "head": ["Estadística", parameter_name],
+            "head": [
+                "Estadística de los valores simulados",
+                dcc.Markdown(
+                    parameter_name,
+                    mathjax=True,
+                ),
+            ],
             "body": [
+                ["Valor verdadero (poblacional)", f"{true_value:.4f}"],
                 ["Media", f"{stats['mean']:.4f}"],
-                ["Varianza", f"{stats['var']:.4f}"],
-                ["Valor verdadero", f"{true_value:.4f}"],
+                ["Desvío Estándar", f"{stats['std']:.4f}"],
             ],
         },
     )

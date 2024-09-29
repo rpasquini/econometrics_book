@@ -206,15 +206,15 @@ scatter_content = create_graph(
 # histogram of beta 0
 histogram_beta_0_content = create_graph(
     "histogram_estimator_beta_0",
-    "Histograma de estimación β₀",
-    "Muestra la distribución de las estimaciones simuladas de β₀",
+    "Distribución de estimaciones de β₀",
+    "El histograma muestra la distribución de las estimaciones simuladas de β₀",
 )
 
 # histogram of beta 1
 histogram_beta_1_content = create_graph(
     "histogram_estimator_beta_1",
-    "Histograma de estimación β₁",
-    "Muestra la distribución de las estimaciones simuladas de β₁",
+    "Distribución de estimaciones de β₁",
+    "El histograma muestra la distribución de las estimaciones simuladas de β₁",
 )
 
 
@@ -322,12 +322,12 @@ def update_histogram(error_std, x_std):
         update_layout(fig)
 
     # Calcular estadísticas
-    beta_0_stats = {"mean": np.mean(estimates[:, 0]), "var": np.var(estimates[:, 0])}
-    beta_1_stats = {"mean": np.mean(estimates[:, 1]), "var": np.var(estimates[:, 1])}
+    beta_0_stats = {"mean": np.mean(estimates[:, 0]), "std": np.std(estimates[:, 0])}
+    beta_1_stats = {"mean": np.mean(estimates[:, 1]), "std": np.std(estimates[:, 1])}
 
     # Crear tablas de estadísticas
-    beta_0_table = create_stats_table(beta_0_stats, beta_0, "β₀")
-    beta_1_table = create_stats_table(beta_1_stats, beta_1, "β₁")
+    beta_0_table = create_stats_table(beta_0_stats, beta_0, r"$$\hat{\beta_0}$$")
+    beta_1_table = create_stats_table(beta_1_stats, beta_1, r"$$\hat{\beta_1}$$")
 
     return fig_histogram_0, fig_histogram_1, fig_scatter, beta_0_table, beta_1_table
 
