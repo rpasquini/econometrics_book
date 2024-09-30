@@ -301,7 +301,7 @@ def create_stats_table(stats, true_value, parameter_name):
         data={
             # "caption": "Estadísticas de los Estimadores",
             "head": [
-                "Estadística de los valores simulados",
+                "Estadísticas de los valores simulados",
                 dcc.Markdown(
                     parameter_name,
                     mathjax=True,

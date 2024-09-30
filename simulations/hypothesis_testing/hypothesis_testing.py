@@ -122,13 +122,13 @@ def calculate_stats(t_stats):
 
 
 # Crear gráfica de la distribución t
-def create_t_distribution_plot(t_stats, df):
+def create_t_distribution_plot(t_stats, degrees_of_freedom):
     """
     Crea una gráfica de la distribución t con la superposición de la distribución teórica.
     """
     # Rango para la distribución t teórica
     x = np.linspace(-5, 5, 100)
-    y_t = stats.t.pdf(x, df=df)
+    y_t = stats.t.pdf(x, df=degrees_of_freedom)
     # Crea el gráfico de la distribución t teórica
     fig_t = go.Figure(data=[go.Scatter(x=x, y=y_t, line=dict(color="black", width=2))])
     fig_t.update_layout(
@@ -150,15 +150,15 @@ def create_t_distribution_plot(t_stats, df):
     return fig_t
 
 
-def perform_hypothesis_test(t_stats, df, alpha):
-    """
-    Realiza una prueba de hipótesis para beta_1 = 0.
-    """
-    # Calcula el p-valor
-    p_value = 2 * stats.t.cdf(-np.abs(t_stats), df=df)
-    # Decide si rechazar la hipótesis nula
-    reject_null = p_value < alpha
-    return p_value, reject_null
+# def perform_hypothesis_test(t_stats, df, alpha):
+#     """
+#     Realiza una prueba de hipótesis para beta_1 = 0.
+#     """
+#     # Calcula el p-valor
+#     p_value = 2 * stats.t.cdf(-np.abs(t_stats), df=df)
+#     # Decide si rechazar la hipótesis nula
+#     reject_null = p_value < alpha
+#     return p_value, reject_null
 
 
 ############### INSTANCIA DE LA APP ###############3
@@ -240,19 +240,22 @@ markdown_description = create_menu(
 scatter_content = create_graph(id="scatter", title="Gráfico de dispersión")
 
 # histogram of beta 0
-histogram_beta_0_content = create_graph(
-    "histogram_estimator_beta_0", "Histograma de estimación β₀"
-)
+# histogram_beta_0_content = create_graph(
+#     "histogram_estimator_beta_0", "Histograma de estimación β₀"
+# )
 
-# histogram of beta 1
-histogram_beta_1_content = create_graph(
-    "histogram_estimator_beta_1", "Histograma de estimación β₁"
-)
+# # histogram of beta 1
+# histogram_beta_1_content = create_graph(
+#     "histogram_estimator_beta_1", "Histograma de estimación β₁"
+# )
 
 # t-statistic distribution
 t_distribution_content = create_graph(
     "t_distribution_plot", "Distribución T simulada vs. Teórica"
 )
+
+
+histogram_error = create_graph("histogram_epsilon", "Histograma del error")
 
 ######### 3) SLIDERS ##############3
 
@@ -260,17 +263,17 @@ sliders_stack = dmc.Stack(
     [
         dmc.Text("Ajuste de parámetros", fw=800),
         # dmc.Text("Desviación estándar del error (Sigma ε)", fw=600),
-        dcc.Markdown("Desviación estándar de $X$ $(\\sigma_{X})$", mathjax=True),
-        dmc.Slider(
-            id="std_error_x",
-            updatemode="drag",
-            min=1,
-            max=50,
-            marks=[{"value": 1, "label": "1"}]
-            + [{"value": x, "label": f"{x}"} for x in range(10, 51, 10)],
-            value=10,
-            style={"width": "80%"},
-        ),
+        # dcc.Markdown("Desviación estándar de $X$ $(\\sigma_{X})$", mathjax=True),
+        # dmc.Slider(
+        #     id="std_error_x",
+        #     updatemode="drag",
+        #     min=1,
+        #     max=50,
+        #     marks=[{"value": 1, "label": "1"}]
+        #     + [{"value": x, "label": f"{x}"} for x in range(10, 51, 10)],
+        #     value=10,
+        #     style={"width": "80%"},
+        # ),
         dmc.Space(h=2),
         dcc.Markdown("*Tamaño de la muestra* $(n)$", mathjax=True),
         dmc.Slider(
@@ -282,14 +285,6 @@ sliders_stack = dmc.Stack(
             value=100,
             style={"width": "80%"},
         ),
-    ],
-    justify="center",
-    gap="xl",
-)
-
-# Dropdown para la distribución del error
-dropdown_error_distribution = dmc.Stack(
-    [
         dmc.Text("Distribución del error", fw=800),
         dmc.Select(
             id="error_distribution",
@@ -310,6 +305,29 @@ dropdown_error_distribution = dmc.Stack(
     gap="xl",
 )
 
+# Dropdown para la distribución del error
+# dropdown_error_distribution = dmc.Stack(
+#     [
+#         dmc.Text("Distribución del error", fw=800),
+#         dmc.Select(
+#             id="error_distribution",
+#             data=[
+#                 {"label": "Normal", "value": "normal"},
+#                 {"label": "Exponencial", "value": "exponential"},
+#                 {"label": "Chi-cuadrada", "value": "chi2"},
+#                 {"label": "Uniforme", "value": "uniform"},
+#                 {"label": "Laplace", "value": "laplace"},
+#             ],
+#             placeholder="Seleccionar distribución",
+#             value="normal",
+#             clearable=False,
+#             style={"width": "80%"},
+#         ),
+#     ],
+#     justify="center",
+#     gap="xl",
+# )
+
 # Definir un estilo para los títulos
 title_style = {
     "marginBottom": 0,
@@ -324,9 +342,9 @@ resumen_content = main_structure(
     menu=markdown_description,
     structure=[
         # Fila 1
-        [[paper(dropdown_error_distribution)], [paper(sliders_stack)]],
+        [[paper(sliders_stack)], [paper(histogram_error)]],
         # Fila 2
-        [[paper(histogram_beta_0_content)], [paper(histogram_beta_1_content)]],
+        # [[paper(histogram_beta_0_content)], [paper(histogram_beta_1_content)]],
         # Fila 3
         [[paper(t_distribution_content)], [paper(html.Div(id="percentiles"), "")]],
     ],
@@ -376,7 +394,9 @@ def update_histogram(error_dist, x_std, sample_size):
         update_layout(fig)
 
     # Crear gráfica de la distribución t
-    fig_t_dist = create_t_distribution_plot(estimates[:, 1], df=sample_size - 2)
+    fig_t_dist = create_t_distribution_plot(
+        estimates[:, 1], degrees_of_freedom=sample_size - 2
+    )
 
     # Crear tabla de percentiles
     percentiles = create_stats_table(
