@@ -310,15 +310,15 @@ def update_histogram(correlation):
     # Calcular estadísticas
     beta_0_stats = {
         "mean": np.mean(betas_0_estimated),
-        "var": np.var(betas_0_estimated),
+        "std": np.std(betas_0_estimated),
     }
     beta_1_stats = {
         "mean": np.mean(betas_1_estimated),
-        "var": np.var(betas_1_estimated),
+        "std": np.std(betas_1_estimated),
     }
     beta_2_stats = {
         "mean": np.mean(betas_2_estimated),
-        "var": np.var(betas_2_estimated),
+        "std": np.std(betas_2_estimated),
     }
 
     beta_0_table = create_stats_table(beta_0_stats, beta_0, "β₀")

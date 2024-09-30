@@ -12,6 +12,7 @@ import os
 import pprint
 import sys
 from scipy import stats
+from typing import NamedTuple
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from template_dashboard import (
@@ -41,7 +42,7 @@ def generate_sample(sample_size, beta_0, beta_1, x_mean, x_std, error_dist):
     """
     Genera una muestra de datos con diferentes distribuciones de error.
     """
-    X = np.random.normal(loc=x_mean, scale=x_std, size=sample_size)
+    X = np.random.normal(loc=x_mean, scale=1, size=sample_size)
     if error_dist == "normal":
         epsilon = np.random.normal(loc=0, scale=10, size=sample_size)
     elif error_dist == "exponential":
@@ -58,15 +59,27 @@ def generate_sample(sample_size, beta_0, beta_1, x_mean, x_std, error_dist):
     return X, Y, epsilon
 
 
+class OLS_ESTIMATION(NamedTuple):
+    params: np.array
+    standard_error: np.array
+
+
 # Estimar con OLS
-def estimate_ols(X, Y):
+def estimate_ols(X, Y, epsilon) -> OLS_ESTIMATION:
     """
     Estima los coeficientes del modelo OLS.
     """
     X_with_constant = sm.add_constant(X)
     model = sm.OLS(exog=X_with_constant, endog=Y)
     results = model.fit()
-    return results.params, results.bse[1]  # Return coefficients and standard error
+    return OLS_ESTIMATION(
+        params=results.params, standard_error=results.bse[1]
+    )  # Return coefficients and standard error
+
+
+class simulation_results(NamedTuple):
+    estimated_params: np.array
+    estimated_std_err: np.array
 
 
 # Función de Simulación
@@ -74,13 +87,19 @@ def run_simulation(n_samples, sample_size, beta_0, beta_1, x_mean, x_std, error_
     """
     Ejecuta la simulación de regresión.
     """
-    estimates = [
-        estimate_ols(
+    estimates = []
+    standard_errors = []
+    for _ in range(n_samples):
+        estimated = estimate_ols(
             *generate_sample(sample_size, beta_0, beta_1, x_mean, x_std, error_dist)
         )
-        for _ in range(n_samples)
-    ]
-    return np.array(estimates)
+        estimates.append(estimated.params)
+        standard_errors.append(estimated.standard_error)
+
+    return simulation_results(
+        estimated_params=np.array(estimates),
+        estimated_std_err=np.array(standard_errors),
+    )
 
 
 # Crear histograma
@@ -106,8 +125,8 @@ def create_scatter_plot(X, Y):
         x=X,
         y=Y,
         labels={"x": "X", "y": "Y"},
-        range_x=[-150, 150],
-        range_y=[-410, 410],
+        # range_x=[-150, 150],
+        # range_y=[-410, 410],
     )
 
 
@@ -117,7 +136,7 @@ def calculate_stats(t_stats):
     """
     return {
         "mean": np.mean(t_stats),
-        "var": np.var(t_stats),
+        "std": np.std(t_stats),
     }
 
 
@@ -127,12 +146,14 @@ def create_t_distribution_plot(t_stats, degrees_of_freedom):
     Crea una gráfica de la distribución t con la superposición de la distribución teórica.
     """
     # Rango para la distribución t teórica
-    x = np.linspace(-5, 5, 100)
+    x = np.linspace(-10, 10, 100)
+    print("GRADOS DE LIBERTAD", degrees_of_freedom)
     y_t = stats.t.pdf(x, df=degrees_of_freedom)
+    print("Distribución de t students", y_t)
     # Crea el gráfico de la distribución t teórica
     fig_t = go.Figure(data=[go.Scatter(x=x, y=y_t, line=dict(color="black", width=2))])
     fig_t.update_layout(
-        title="Distribución T Teórica",
+        # title="Distribución T Teórica",
         xaxis_title="t",
         yaxis_title="Densidad",
     )
@@ -140,8 +161,9 @@ def create_t_distribution_plot(t_stats, degrees_of_freedom):
     fig_hist = px.histogram(
         t_stats,
         color_discrete_sequence=["indianred"],
-        nbins=20,
-        title="Histograma de T-Estadísticos",
+        histnorm="probability density",
+        # nbins=20,
+        # title="Histograma de T-Estadísticos",
         labels={"x": "t-estadístico"},
     )
     # Superpone el histograma sobre la distribución t teórica
@@ -150,15 +172,16 @@ def create_t_distribution_plot(t_stats, degrees_of_freedom):
     return fig_t
 
 
-# def perform_hypothesis_test(t_stats, df, alpha):
-#     """
-#     Realiza una prueba de hipótesis para beta_1 = 0.
-#     """
-#     # Calcula el p-valor
-#     p_value = 2 * stats.t.cdf(-np.abs(t_stats), df=df)
-#     # Decide si rechazar la hipótesis nula
-#     reject_null = p_value < alpha
-#     return p_value, reject_null
+def perform_hypothesis_test(t_stats, df, alpha):
+    """
+    Realiza una prueba de hipótesis para beta_1 = 0.
+    """
+    # Calcula el p-valor
+    p_value = 2 * stats.t.cdf(-np.abs(t_stats), df=df)
+    # Decide si rechazar la hipótesis nula
+    reject_null = p_value < alpha
+    rejects_amount = sum(reject_null)
+    return rejects_amount
 
 
 ############### INSTANCIA DE LA APP ###############3
@@ -274,18 +297,7 @@ sliders_stack = dmc.Stack(
         #     value=10,
         #     style={"width": "80%"},
         # ),
-        dmc.Space(h=2),
-        dcc.Markdown("*Tamaño de la muestra* $(n)$", mathjax=True),
-        dmc.Slider(
-            id="sample_size",
-            updatemode="drag",
-            min=10,
-            max=1000,
-            marks=[{"value": x, "label": f"{x}"} for x in range(10, 1001, 100)],
-            value=100,
-            style={"width": "80%"},
-        ),
-        dmc.Text("Distribución del error", fw=800),
+        dcc.Markdown("Distribución del error", mathjax=True),
         dmc.Select(
             id="error_distribution",
             data=[
@@ -298,6 +310,18 @@ sliders_stack = dmc.Stack(
             placeholder="Seleccionar distribución",
             value="normal",
             clearable=False,
+            style={"width": "80%"},
+        ),
+        # dmc.Space(h=2),
+        dcc.Markdown("Tamaño de la muestra $(n)$", mathjax=True),
+        dmc.Slider(
+            id="sample_size",
+            updatemode="drag",
+            min=50,
+            step=50,
+            max=1000,
+            marks=[{"value": x, "label": f"{x}"} for x in range(50, 1001, 200)],
+            value=100,
             style={"width": "80%"},
         ),
     ],
@@ -336,38 +360,50 @@ title_style = {
     "textAlign": "left",
 }
 
+MODIFIED_HEIGHT = lambda x: str(int(COMPONENT_HEIGHT.replace("px", "")) + x) + "px"
 
 ########## ESTRUCTURA ##################3
 resumen_content = main_structure(
     menu=markdown_description,
     structure=[
         # Fila 1
-        [[paper(sliders_stack)], [paper(histogram_error)]],
+        [
+            [
+                paper(sliders_stack),
+            ],
+            [paper(histogram_error)],
+        ],
         # Fila 2
         # [[paper(histogram_beta_0_content)], [paper(histogram_beta_1_content)]],
         # Fila 3
-        [[paper(t_distribution_content)], [paper(html.Div(id="percentiles"), "")]],
+        [
+            [
+                paper(t_distribution_content),
+                dmc.Space(h=10),
+                paper(html.Div(id="percentiles"), ""),
+            ],
+            [paper(scatter_content)],
+        ],
     ],
 )
 
 
 ################# CALLBACK ###############
 @app.callback(
-    Output("histogram_estimator_beta_0", "figure"),
-    Output("histogram_estimator_beta_1", "figure"),
-    Output("scatter", "figure"),
+    Output("histogram_epsilon", "figure"),
     Output("t_distribution_plot", "figure"),
     Output("percentiles", "children"),
+    Output("scatter", "figure"),
     Input("error_distribution", "value"),
-    Input("std_error_x", "value"),
     Input("sample_size", "value"),
 )
-def update_histogram(error_dist, x_std, sample_size):
+def update_histogram(error_dist, sample_size):
     # Parámetros de la simulación
-    n_samples = 500
+    n_samples = 1000
     beta_0, beta_1 = 10, 0
     x_mean = 10
     alpha = 0.05
+    x_std = 1
 
     # Ejecutar la simulación
     estimates = run_simulation(
@@ -380,32 +416,46 @@ def update_histogram(error_dist, x_std, sample_size):
         error_dist,
     )
 
+    params = estimates.estimated_params
+    std_error_beta_1 = estimates.estimated_std_err
+
+    # print(params.shape, type(params), params)
+    # print(std_error_beta_1.shape, type(std_error_beta_1), std_error_beta_1)
+
     # Crear histogramas
     X, Y, epsilon = generate_sample(
         sample_size, beta_0, beta_1, x_mean, x_std, error_dist
     )
-    fig_histogram_0 = create_histogram(estimates[:, 0], [0, 20], "$\\beta_0$")
-    fig_histogram_1 = create_histogram(estimates[:, 1], [0, 6], "$\\beta_1$")
+    fig_histogram_0 = create_histogram(params[:, 0], [0, 20], "$\\beta_0$")
+    fig_histogram_1 = create_histogram(params[:, 1], [0, 6], "$\\beta_1$")
     fig_scatter = create_scatter_plot(X, Y)
     fig_epsilon = create_histogram(epsilon, [-50, 50], "$\\epsilon$")
 
-    # Actualizar el diseño de los gráficos
-    for fig in [fig_histogram_0, fig_histogram_1, fig_scatter, fig_epsilon]:
-        update_layout(fig)
-
     # Crear gráfica de la distribución t
+    t_statistic = params[:, 1] / std_error_beta_1
+    print(t_statistic)
+
     fig_t_dist = create_t_distribution_plot(
-        estimates[:, 1], degrees_of_freedom=sample_size - 2
+        t_statistic, degrees_of_freedom=sample_size - 1
     )
+    rejects_null = perform_hypothesis_test(
+        t_stats=t_statistic, df=sample_size - 1, alpha=0.05
+    )
+
+    # Crear el histograma del error
+    fig_hist_error = create_histogram(epsilon, [-100, 100], "x")
 
     # Crear tabla de percentiles
     percentiles = create_stats_table(
-        {"mean": np.mean(estimates[:, 1]), "var": np.var(estimates[:, 1])},
+        {"mean": np.mean(params[:, 1]), "std": np.std(params[:, 1])},
         0,
         "β₁",
     )
+    # Actualizar el diseño de los gráficos
+    for fig in [fig_hist_error, fig_t_dist]:
+        update_layout(fig)
 
-    return fig_histogram_0, fig_histogram_1, fig_scatter, fig_t_dist, percentiles
+    return fig_hist_error, fig_t_dist, percentiles, fig_scatter
 
 
 ############ LAYOUT ##################
@@ -417,5 +467,5 @@ app.layout = build_layout(
 ############ RUN SERVER #################
 if __name__ == "__main__":
     port = int(os.environ.get("DASH_PORT"))
-    app.run_server(host="0.0.0.0", debug=False, port=port)
+    app.run_server(host="0.0.0.0", debug=True, port=port)
     # app.run_server(debug=False, port=8070)
