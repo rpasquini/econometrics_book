@@ -53,8 +53,13 @@ def generate_sample(sample_size, beta_0, beta_1, x_mean, x_std, error_dist):
         epsilon = np.random.uniform(low=-10, high=10, size=sample_size)
     elif error_dist == "laplace":
         epsilon = np.random.laplace(loc=0, scale=10, size=sample_size)
+    elif error_dist == "gamma":
+        epsilon = np.random.gamma(shape=2, scale=3, size=sample_size)
+
+    elif error_dist == "beta":
+        epsilon = 10 * np.random.beta(a=8, b=6, size=sample_size)
     else:
-        raise ValueError("Error distribution not recognized.")
+        raise ValueError(f"Error distribution --{error_dist}-- not recognized.")
     Y = beta_0 + beta_1 * X + epsilon
     return X, Y, epsilon
 
@@ -306,6 +311,8 @@ sliders_stack = dmc.Stack(
                 {"label": "Chi-cuadrada", "value": "chi2"},
                 {"label": "Uniforme", "value": "uniform"},
                 {"label": "Laplace", "value": "laplace"},
+                {"label": "Gamma", "value": "gamma"},
+                {"label": "Beta", "value": "beta"},
             ],
             placeholder="Seleccionar distribución",
             value="normal",
@@ -317,8 +324,8 @@ sliders_stack = dmc.Stack(
         dmc.Slider(
             id="sample_size",
             updatemode="drag",
-            min=50,
-            step=50,
+            min=5,
+            step=5,
             max=1000,
             marks=[{"value": x, "label": f"{x}"} for x in range(50, 1001, 200)],
             value=100,
@@ -369,20 +376,29 @@ resumen_content = main_structure(
         # Fila 1
         [
             [
-                paper(sliders_stack),
+                paper([sliders_stack]),
             ],
-            [paper(histogram_error)],
+            [paper([histogram_error])],
         ],
         # Fila 2
         # [[paper(histogram_beta_0_content)], [paper(histogram_beta_1_content)]],
         # Fila 3
         [
             [
-                paper(t_distribution_content),
-                dmc.Space(h=10),
-                paper(html.Div(id="percentiles"), ""),
+                paper(
+                    content=[
+                        t_distribution_content,
+                        dmc.Space(h=10),
+                        html.Div(id="percentiles_alpha"),
+                    ],
+                    height="",
+                ),
             ],
-            [paper(scatter_content)],
+            [
+                paper([scatter_content]),
+                # dmc.Space(h=10),
+                # paper(html.Div(id="percentiles_alpha"), ""),
+            ],
         ],
     ],
 )
@@ -392,8 +408,9 @@ resumen_content = main_structure(
 @app.callback(
     Output("histogram_epsilon", "figure"),
     Output("t_distribution_plot", "figure"),
-    Output("percentiles", "children"),
+    # Output("percentiles", "children"),
     Output("scatter", "figure"),
+    Output("percentiles_alpha", "children"),
     Input("error_distribution", "value"),
     Input("sample_size", "value"),
 )
@@ -431,15 +448,25 @@ def update_histogram(error_dist, sample_size):
     fig_scatter = create_scatter_plot(X, Y)
     fig_epsilon = create_histogram(epsilon, [-50, 50], "$\\epsilon$")
 
+    def get_percentage_rejects_null():
+
+        pass
+
     # Crear gráfica de la distribución t
     t_statistic = params[:, 1] / std_error_beta_1
-    print(t_statistic)
+    # print(t_statistic)
 
     fig_t_dist = create_t_distribution_plot(
         t_statistic, degrees_of_freedom=sample_size - 1
     )
     rejects_null = perform_hypothesis_test(
-        t_stats=t_statistic, df=sample_size - 1, alpha=0.05
+        t_stats=t_statistic, df=sample_size - 2, alpha=0.05
+    )
+
+    percentage_rejects_null = rejects_null / 1000
+
+    print(
+        f"Entonces el porcenaje de rechazo  hubiera sido {percentage_rejects_null:.5f} lo cual representa una diferencia de {percentage_rejects_null-0.05:.4f} con respecto al 0.05"
     )
 
     # Crear el histograma del error
@@ -449,13 +476,26 @@ def update_histogram(error_dist, sample_size):
     percentiles = create_stats_table(
         {"mean": np.mean(params[:, 1]), "std": np.std(params[:, 1])},
         0,
-        "β₁",
+        r"$T$",
     )
+
+    # Crear tabla de percentiles
+    percentiles_alpha = create_stats_table(
+        custom=True,
+        custom_title="Comparación de nivel de signficancia",
+        custom_dict_varnames={
+            "Valor simulado": f"{percentage_rejects_null:.4f}",
+            "Valor real": "0.05",
+            "Diferencia": f"{percentage_rejects_null-0.05:.4f}",
+        },
+        parameter_name=r"$\alpha$",
+    )
+
     # Actualizar el diseño de los gráficos
     for fig in [fig_hist_error, fig_t_dist]:
         update_layout(fig)
 
-    return fig_hist_error, fig_t_dist, percentiles, fig_scatter
+    return fig_hist_error, fig_t_dist, fig_scatter, percentiles_alpha
 
 
 ############ LAYOUT ##################
@@ -467,5 +507,5 @@ app.layout = build_layout(
 ############ RUN SERVER #################
 if __name__ == "__main__":
     port = int(os.environ.get("DASH_PORT"))
-    app.run_server(host="0.0.0.0", debug=True, port=port)
+    app.run_server(host="0.0.0.0", debug=False, port=port)
     # app.run_server(debug=False, port=8070)
