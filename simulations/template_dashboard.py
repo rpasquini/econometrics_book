@@ -160,8 +160,9 @@ def create_graph(id, title, information=""):
 
 def paper(content, height=COMPONENT_HEIGHT):
     # fmt: off
+    print(*content)
     return dmc.Paper(
-            children=[content],
+            children=[x for x in content],
             p="xl",
             shadow="xs",
             withBorder=True,
@@ -292,27 +293,52 @@ def build_layout(title: str, content):
     )
 
 
-def create_stats_table(stats, true_value, parameter_name):
-    return dmc.Table(
-        striped=True,
-        highlightOnHover=True,
-        # withTableBorder=True,
-        withColumnBorders=True,
-        data={
+def create_stats_table(
+    stats={"mean": 0, "std": 0},
+    true_value=0,
+    parameter_name="unknown",
+    custom=False,
+    custom_title="",
+    custom_dict_varnames=dict(),
+):
+    default = {
+        # "caption": "Estadísticas de los Estimadores",
+        "head": [
+            "Estadísticas de los valores simulados",
+            dcc.Markdown(
+                parameter_name,
+                mathjax=True,
+            ),
+        ],
+        "body": [
+            ["Valor verdadero (poblacional)", f"{true_value:.4f}"],
+            ["Media", f"{stats['mean']:.4f}"],
+            ["Desvío Estándar", f"{stats['std']:.4f}"],
+        ],
+    }
+    if custom == True:
+        names_var = [[name, value] for name, value in custom_dict_varnames.items()]
+        dict_data = {
             # "caption": "Estadísticas de los Estimadores",
             "head": [
-                "Estadísticas de los valores simulados",
+                custom_title,
                 dcc.Markdown(
                     parameter_name,
                     mathjax=True,
                 ),
             ],
-            "body": [
-                ["Valor verdadero (poblacional)", f"{true_value:.4f}"],
-                ["Media", f"{stats['mean']:.4f}"],
-                ["Desvío Estándar", f"{stats['std']:.4f}"],
-            ],
-        },
+            "body": names_var,
+        }
+
+    else:
+        dict_data = default
+
+    return dmc.Table(
+        striped=True,
+        highlightOnHover=True,
+        # withTableBorder=True,
+        withColumnBorders=True,
+        data=dict_data,
     )
 
 
