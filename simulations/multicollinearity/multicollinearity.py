@@ -102,6 +102,14 @@ def run_simulation(
     ]
     return np.array(estimates)
 
+# Estimar con OLS y calcular R^2 de X1 ~ X2
+def estimate_r_squared(X1, X2):
+    X_with_constant2 = sm.add_constant(X2)  # Add constant to the X2 matrix
+    model = sm.OLS(X1, X_with_constant2)  # Fit OLS model with X1 as dependent
+    results = model.fit()
+    r_squared = results.rsquared  # Get the R-squared value
+    return r_squared
+
 
 ############### INSTANCIA DE LA APP ###############3
 app = Dash(
@@ -196,7 +204,7 @@ histogram_beta_2_content = create_graph(
 )
 
 
-######### 3) SLIDERS ##############3
+######### 3) SLIDERS ##############
 
 sliders_stack = dmc.Stack(
     [
@@ -216,6 +224,7 @@ sliders_stack = dmc.Stack(
             value=0,
             style={"width": "80%"},
         ),
+        html.Div(id="r_squared_output"),  
     ],
     justify="center",
     gap="xl",
@@ -263,6 +272,7 @@ resumen_content = main_structure(
     Output("beta_0_stats", "children"),
     Output("beta_1_stats", "children"),
     Output("beta_2_stats", "children"),
+    Output("r_squared_output", "children"),
     Input("correlation", "value"),
 )
 def update_histogram(correlation):
@@ -297,6 +307,9 @@ def update_histogram(correlation):
         correlation=correlation,
     )
 
+      # Calculate R² for the model X1 ~ X2
+    r_squared = estimate_r_squared(X1=X_1, X2=X_2)
+
     # fmt: off
     fig_histogram_0=create_histogram(data=np.array(betas_0_estimated), range_x=[0,20], true_value=beta_0 )
     fig_histogram_1=create_histogram(data=np.array(betas_1_estimated), range_x=[0,6], true_value=beta_1 )
@@ -325,6 +338,11 @@ def update_histogram(correlation):
     beta_1_table = create_stats_table(beta_1_stats, beta_1, "β₁")
     beta_2_table = create_stats_table(beta_2_stats, beta_2, "β₂")
 
+    # Create the R² output as a Markdown for display
+    r_squared_output = dcc.Markdown(
+        f"**R² for X1 ~ X2 model**: {r_squared:.4f}", style={"font-size": "18px"}
+    )
+    
     return (
         fig_histogram_0,
         fig_histogram_1,
@@ -333,6 +351,7 @@ def update_histogram(correlation):
         beta_0_table,
         beta_1_table,
         beta_2_table,
+        r_squared_output,
     )
 
 
@@ -344,6 +363,6 @@ app.layout = build_layout(
 
 ############ RUN SERVER #################
 if __name__ == "__main__":
-    port = int(os.environ.get("DASH_PORT"))
-    app.run_server(debug=False, port=port)
-    # app.run_server(debug=False, port=8070)
+    # port = int(os.environ.get("DASH_PORT"))
+    # app.run_server(debug=False, port=port)
+    app.run_server(debug=False, host="127.0.0.1")
