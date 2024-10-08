@@ -216,13 +216,13 @@ sliders_stack = dmc.Stack(
             updatemode="drag",
             min=-1,
             max=1,
-            step=0.05,
+            step=0.01,
             marks=[{"value": x, "label": f"{x}"} for x in np.arange(-1, 1.01, 0.25)],
             value=0,
             style={"width": "80%"},
         ),
         
-        html.Div(id="r_squared_output", style={"margin-top": "50px"}),  
+        html.Div(id="r_squared_output", style={"margin-top": "37px"}),  
         
         dmc.Accordion(
             children=[
@@ -230,10 +230,13 @@ sliders_stack = dmc.Stack(
                     value="section_1",
                     children=[
                         dmc.AccordionControl("R² Explained", fw=700),  # This is the title/header
-                        dmc.AccordionPanel("R², or the coefficient of determination, measures the proportion of variance "
+                        dmc.AccordionPanel(
+                            dcc.Markdown("$R^2$, or the coefficient of determination, measures the proportion of variance "
                                            "in the dependent variable that is predictable from the independent variables. "
                                            "A higher R² value indicates a better fit of the model to the data, meaning "
-                                           "that the model explains a larger portion of the variance."
+                                           "that the model explains a larger portion of the variance. In this case, R² explains "
+                                           "the proportion of the variance of $X_1$ that is predictable by the variance in $X_2$",
+                                           mathjax=True)                                           
                         ),
                     ]
                 ),
@@ -243,6 +246,7 @@ sliders_stack = dmc.Stack(
     ],
     justify="center",
     gap="xl",
+    style={"overflow": "visible", "height": "auto"}
 )
 
 
@@ -251,7 +255,7 @@ resumen_content = main_structure(
     menu=markdown_description,
     structure=[
         # Fila 1
-        [[paper(sliders_stack)], [paper(scatter_content)]],
+        [[dmc.Paper(children=[sliders_stack], p="xl", shadow="xs", withBorder=True, style={"overflow": "visible", "height": "auto","borderRadius":"10px"})], [paper(scatter_content)]],
         # Fila 2
         [
             # Primer elemento de la fila 2
