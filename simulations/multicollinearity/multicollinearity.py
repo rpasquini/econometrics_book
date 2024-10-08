@@ -339,10 +339,12 @@ def update_histogram(correlation):
     beta_2_table = create_stats_table(beta_2_stats, beta_2, "β₂")
 
     # Create the R² output as a Markdown for display
-    r_squared_output = dcc.Markdown(
-        f"**R² for X1 ~ X2 model**: {r_squared:.4f}", style={"font-size": "18px"}
+    r_squared_output = dcc.Markdown(f"**$R^2$ for $X_1 \\sim X_2$ model**: {r_squared:.4f}", 
+    mathjax=True, 
+    style={"font-size": "18px"}
     )
-    
+
+
     return (
         fig_histogram_0,
         fig_histogram_1,
