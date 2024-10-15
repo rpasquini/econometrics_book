@@ -30,5 +30,5 @@ By understanding the statistical properties of estimated coefficients, researche
 
 
 
-<iframe src="http://127.0.0.1:8001/" width="100%" height="600px">
+<iframe src="http://18.231.246.86:8001/" width="100%" height="600px">
 </iframe>

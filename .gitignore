@@ -1,0 +1,6 @@
+/serverinfo
+*.pem
+*.log
+
+*.pyc
+__pycache__/

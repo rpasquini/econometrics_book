@@ -24,6 +24,7 @@ from template_dashboard import (
     main_structure,
     build_layout,
     create_stats_table,
+    card_title_w_information_hovercard,
 )
 
 ######## CONFIGURACIÓN DE ESTILO  ##############
@@ -115,10 +116,17 @@ app = Dash(
 # Definimos el contenido de cada sección como strings separados
 
 intro_content = """
-Esta simulación demuestra la insesgadez y los determinantes de la varianza de los estimadores OLS $\\beta_0$ y $\\beta_1$ en el modelo:
+Esta simulación demuestra la insesgadez y los determinantes de la varianza de los estimadores OLS de $\\beta_0$ y $\\beta_1$ en el modelo poblacional:
 $$
-y = \\beta_0 + \\beta_1 x + \\epsilon
+Y_i = \\beta_0 + \\beta_1 X_i + \\varepsilon_i
 $$
+
+En particular, supondremos que $\\beta_0 = 10$ y $\\beta_1 = 3$.
+
+$$
+Y_i = 10 + 3 X_i + \\varepsilon_i
+$$
+
 """
 
 simulation_content = """
@@ -133,8 +141,8 @@ simulation_content = """
        - $\\epsilon$ (error): Generada con distribución normal
          * Media = 0
          * Desviación estándar = ajustable por el usuario (slider_value)
-       - Y: Calculada usando la ecuación del modelo
-         * $Y = 10 + 3X + \\epsilon (\\beta_0 = 10, \\beta_1 = 3)$
+       - Y: Calculada usando el modelo poblacional supuesto:
+         * $Y = 10 + 3X + \\varepsilon $
 
 3. **Estimación:**
        - Para cada muestra, se estiman $\\beta_0$ y $\\beta_1$ usando OLS.
@@ -144,17 +152,35 @@ Ajusta los sliders para observar cómo la variabilidad en $X$ y $\\epsilon$ afec
 """
 
 unbiasedness_content = """
-Los histogramas deben centrarse cerca de los valores verdaderos $(\\beta_0 = 10, \\beta_1 = 3)$, demostrando insesgadez.
+La propiedad de insesgadez de los estimadores OLS dice que, en valor esperado, las estimaciones son iguales a los verdaderos valores poblacionales. En este caso, esto sería:
+
+$$
+E[\\hat{\\beta}_0] = 10
+$$
+$$
+E[\\hat{\\beta}_1] = 3
+$$
+
+Para demostrar numéricamente que esta propiedad se cumple, mostramos que la simulación de múltiples estimaciones OLS cumplen que :
+
+1. La distribución de las estimación de los respectivos coeficientes se centra cerca de los valores verdaderos $(\\beta_0 = 10, \\beta_1 = 3)$.
+2. El promedio de las estimaciones es cercano a los valores verdaderos.
+
 """
 
 variance_content = """
+La varianza de los estimadores OLS ( $\\hat{\\beta_0}$ y $\\hat{\\beta_1}$ está determinada por dos factores:
+
 1. **Varianza del término de error:** 
-       - Aumentarla incrementa la dispersión de Y alrededor de la línea de regresión.
-       - Resulta en histogramas más anchos para $\\beta_0$ y $\\beta_1$.
+       - Un aumento en el error del modelo se traduce en mayor imprecisión de la estimación del modelo.
+       - Esto se refleja en histogramas más anchos para $\\hat{\\beta_0}$ y $\\hat{\\beta_1}$.
+       - Mayor varianza estimada de las estimaciones realizadas (Ver valor en la tabla)).
 
 2. **Varianza de $X$:**
-       - Aumentarla dispersa los valores de $X$.
-       - Resulta en un histograma más estrecho para $\\beta_1$ y para $\\beta_0$.
+       - Ceteris paribus, una  mayor dispersión en los valores de la variable explicativa $X$ reduce la imprecisión de la estimación $\\hat{\\beta_0}$ y $\\hat{\\beta_1}$ .
+       - Esto se refleja en histogramas más estrecho para $\\hat{\\beta_0}$ y $\\hat{\\beta_1}$.
+       - Menor varianza estimada de las estimaciones realizadas (Ver valor en la tabla)).
+
 """
 
 # Creamos el componente Accordion (las cajitas) con las secciones
@@ -162,25 +188,33 @@ variance_content = """
 markdown_description = create_menu(
     600,
     {"Introducción": intro_content},
-    {"Metodología": simulation_content},
     {"Demostración de Insesgadez": unbiasedness_content},
-    {"Determinantes de la Varianza": variance_content},
+    {"Determinantes de la Varianza de la Estimación": variance_content},
+    {"Metodología": simulation_content},
 )
 
 
 ############ 2) GRÁFICOS ##############3
 
 # scatter
-scatter_content = create_graph(id="scatter", title="Gráfico de dispersión")
+scatter_content = create_graph(
+    id="scatter",
+    title="Gráfico de dispersión",
+    information="Incluye una muestra de datos obtenidos de la población. Cada punto es un dato de la muestra: un par de X e Y",
+)
 
 # histogram of beta 0
 histogram_beta_0_content = create_graph(
-    "histogram_estimator_beta_0", "Histograma de estimación β₀"
+    "histogram_estimator_beta_0",
+    "Distribución de estimaciones de β₀",
+    "El histograma muestra la distribución de las estimaciones simuladas de β₀",
 )
 
 # histogram of beta 1
 histogram_beta_1_content = create_graph(
-    "histogram_estimator_beta_1", "Histograma de estimación β₁"
+    "histogram_estimator_beta_1",
+    "Distribución de estimaciones de β₁",
+    "El histograma muestra la distribución de las estimaciones simuladas de β₁",
 )
 
 
@@ -188,7 +222,10 @@ histogram_beta_1_content = create_graph(
 
 sliders_stack = dmc.Stack(
     [
-        dmc.Text("Ajuste de parámetros", fw=800),
+        card_title_w_information_hovercard(
+            title="Ajuste de parámetros",
+            information="Estos parámetros cambian los supuestos del modelo poblacional a ser estimado.",
+        ),
         # dmc.Text("Desviación estándar del error (Sigma ε)", fw=600),
         dcc.Markdown(
             "*Desviación estándar del error* $(\\sigma_{\\varepsilon})$", mathjax=True
@@ -269,8 +306,12 @@ def update_histogram(error_std, x_std):
     )
 
     # Crear histogramas
-    fig_histogram_0 = create_histogram(estimates[:, 0], [0, 20], beta_0, "$\\beta_0$")
-    fig_histogram_1 = create_histogram(estimates[:, 1], [0, 6], beta_1, "$\\beta_1$")
+    fig_histogram_0 = create_histogram(
+        estimates[:, 0], [0, 20], beta_0, "Estimación de β₀"
+    )
+    fig_histogram_1 = create_histogram(
+        estimates[:, 1], [0, 6], beta_1, "Estimación de β₁"
+    )
 
     # Crear gráfico de dispersión
     X, Y = generate_sample(sample_size, beta_0, beta_1, x_mean, x_std, error_std)
@@ -281,24 +322,24 @@ def update_histogram(error_std, x_std):
         update_layout(fig)
 
     # Calcular estadísticas
-    beta_0_stats = {"mean": np.mean(estimates[:, 0]), "var": np.var(estimates[:, 0])}
-    beta_1_stats = {"mean": np.mean(estimates[:, 1]), "var": np.var(estimates[:, 1])}
+    beta_0_stats = {"mean": np.mean(estimates[:, 0]), "std": np.std(estimates[:, 0])}
+    beta_1_stats = {"mean": np.mean(estimates[:, 1]), "std": np.std(estimates[:, 1])}
 
     # Crear tablas de estadísticas
-    beta_0_table = create_stats_table(beta_0_stats, beta_0, "β₀")
-    beta_1_table = create_stats_table(beta_1_stats, beta_1, "β₁")
+    beta_0_table = create_stats_table(beta_0_stats, beta_0, r"$$\hat{\beta_0}$$")
+    beta_1_table = create_stats_table(beta_1_stats, beta_1, r"$$\hat{\beta_1}$$")
 
     return fig_histogram_0, fig_histogram_1, fig_scatter, beta_0_table, beta_1_table
 
 
 ############ LAYOUT ##################
 app.layout = build_layout(
-    title="Simulación OLS: Insesgadez y Varianza de Estimadores",
+    title="Simulación: Insesgadez y Varianza de Estimadores OLS",
     content=resumen_content,
 )
 
 ############ RUN SERVER #################
 if __name__ == "__main__":
     port = int(os.environ.get("DASH_PORT"))
-    app.run_server(debug=False, port=port)
+    app.run_server(host="0.0.0.0", debug=False, port=port)
     # app.run_server(debug=False, port=8070)

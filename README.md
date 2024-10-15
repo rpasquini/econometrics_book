@@ -16,7 +16,26 @@
 
 ## 2. Book deployment
 
-* In development mode just look for the book in html form in book/_build
-* Alternatively, you can build your own development version of the book calling (from the root) 
+* If the book has already been built, look for the book in html form at book/_build
 
-``jupyter--book build book``
+* Alternatively, you can build your own development version of the book calling (from the root folder):  
+    ``jupyter--book build book``
+
+
+## Server deployment
+* To deploy the html contents of the book using Python’s HTTP Server (Quick Solution): Navigate to the _build/html/ folder and start the server: 
+
+    ``` 
+    tmux new -s book
+
+    cd _build/html 
+    
+    python3 -m http.server 8000 
+    ```
+
+* In another session deploy the 
+
+    ```
+    tmux new -s simus  
+    python launcher.py 
+    ```
