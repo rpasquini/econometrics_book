@@ -158,8 +158,33 @@ def create_graph(id, title, information=""):
     )
 
 
-def paper(content, height=COMPONENT_HEIGHT):
+def paper(content:list, height:str=COMPONENT_HEIGHT):
+    """
+    Create a Paper component with the given content and height.
+
+    This function takes a list of content items and wraps them in a Dash Mantine Core (dmc) Paper component.
+    It also prints the content items to the console.
+
+    Args:
+        content (list): A list of elements to be included in the Paper component.
+        height (str, optional): The height of the Paper component. Defaults to COMPONENT_HEIGHT.
+
+    Returns:
+        dmc.Paper: A Dash Mantine Core Paper component containing the provided content.
+
+    The Paper component is styled with:
+        - Padding: extra-large
+        - Shadow: extra-small
+        - Border: True
+        - Border radius: 10px
+        - Custom height as specified by the 'height' parameter
+
+    Note:
+        This function uses 'fmt: off' and 'fmt: on' comments to disable and re-enable
+        automatic code formatting for the return statement.
+    """
     # fmt: off
+    
     print(*content)
     return dmc.Paper(
             children=[x for x in content],

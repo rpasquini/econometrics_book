@@ -189,6 +189,7 @@ sliders_stack = dmc.Stack(
         dmc.Text("Ajuste de parámetros", fw=800),
         dcc.Markdown("Correlación entre $X_1$ y $U$", mathjax=True),
         dmc.Slider(
+            color="red",
             id="correlation",
             updatemode="drag",
             min=-1,
@@ -208,13 +209,13 @@ resumen_content = main_structure(
     menu=markdown_description,
     structure=[
         # Fila 1
-        [[paper(sliders_stack)], [paper(scatter_content)]],
+        [[paper([sliders_stack])], [paper([scatter_content])]],
         # Fila 2
         [
             [
-                paper(histogram_beta_1_content),
+                paper([histogram_beta_1_content]),
                 dmc.Space(h=10),
-                paper(html.Div(id="beta_1_stats"), ""),
+                paper([html.Div(id="beta_1_stats")], ""),
             ],
             [],
         ],
@@ -286,8 +287,8 @@ app.layout = build_layout(
 
 ############ RUN SERVER #################
 if __name__ == "__main__":
-    port = int(os.environ.get("DASH_PORT"))
-    app.run_server(host="0.0.0.0", debug=False, port=port)
-    # app.run_server(debug=False, port=8080)
+    # port = int(os.environ.get("DASH_PORT"))
+    # app.run_server(host="0.0.0.0", debug=False, port=port)
+    app.run_server(debug=True, port=8080)
 
 # print("hola soy octi")
