@@ -24,6 +24,7 @@ from template_dashboard import (
     main_structure,
     build_layout,
     create_stats_table,
+    title_with_hovercard
 )
 
 ######## CONFIGURACIÓN DE ESTILO  ##############
@@ -142,6 +143,7 @@ simulation_content = """
        - Se crean 500 muestras independientes.
        - Cada muestra contiene 250 observaciones.
 
+       
 2. **Modelado de variables para cada muestra:**
        - X1: Generada con distribución normal
          * Media = 10
@@ -155,6 +157,7 @@ simulation_content = """
        - Y: Calculada usando la ecuación del modelo
          * $Y = 10 + 3X_1 + 5X_2 + \\epsilon$
 
+         
 3. **Estimación:**
        - Para cada muestra, se estiman $\\beta_0$, $\\beta_1$ y $\\beta_2$ usando OLS.
        - Se recopilan todas las estimaciones para crear los histogramas.
@@ -208,7 +211,23 @@ histogram_beta_2_content = create_graph(
 
 sliders_stack = dmc.Stack(
     [
-        dmc.Text("Ajuste de parámetros", fw=800),
+        # dmc.Text("Ajuste de parámetros", fw=800),
+        title_with_hovercard("Ajuste de Parámetros",
+                             """ 
+                            
+                              #### $R^2$ from $X_1 \\sim X_2$ model
+
+                             $R^2$, or the coefficient of determination, measures the proportion of variance 
+                             in the dependent variable that is predictable from the independent variables. 
+                             A higher $R^2$ value indicates a better fit of the model to the data, meaning 
+                             that the model explains a larger portion of the variance. In this case, $R^2$ explains 
+                             the proportion of the variance of $X_1$ that is predictable by the variance in $X_2$,
+                             which means a higher value for the coeffiecient is found when the correlation between 
+                             $X_1$ and $X_2$ is stronger.
+                             
+                             """
+                             ),
+
         dcc.Markdown("Correlación entre $X_1$ y $X_2$", mathjax=True),
         
         dmc.Slider(
@@ -222,27 +241,27 @@ sliders_stack = dmc.Stack(
             style={"width": "80%"},
         ),
         
-        html.Div(id="r_squared_output", style={"margin-top": "37px"}),  
+        html.Div(id="r_squared_output", style={"margin-top": "100px"}),  
         
-        dmc.Accordion(
-            children=[
-                dmc.AccordionItem(
-                    value="section_1",
-                    children=[
-                        dmc.AccordionControl("R² Explained", fw=700),  # This is the title/header
-                        dmc.AccordionPanel(
-                            dcc.Markdown("$R^2$, or the coefficient of determination, measures the proportion of variance "
-                                           "in the dependent variable that is predictable from the independent variables. "
-                                           "A higher R² value indicates a better fit of the model to the data, meaning "
-                                           "that the model explains a larger portion of the variance. In this case, R² explains "
-                                           "the proportion of the variance of $X_1$ that is predictable by the variance in $X_2$",
-                                           mathjax=True)                                           
-                        ),
-                    ]
-                ),
-            ],
-            multiple=False
-        ),
+        # dmc.Accordion(
+        #     children=[
+        #         dmc.AccordionItem(
+        #             value="section_1",
+        #             children=[
+        #                 dmc.AccordionControl(dcc.Markdown("Explicación $R^2$", mathjax=True), fw=700),  # This is the title/header
+        #                 dmc.AccordionPanel(
+        #                     dcc.Markdown("$R^2$, or the coefficient of determination, measures the proportion of variance "
+        #                                    "in the dependent variable that is predictable from the independent variables. "
+        #                                    "A higher R² value indicates a better fit of the model to the data, meaning "
+        #                                    "that the model explains a larger portion of the variance. In this case, R² explains "
+        #                                    "the proportion of the variance of $X_1$ that is predictable by the variance in $X_2$",
+        #                                    mathjax=True)                                           
+        #                 ),
+        #             ]
+        #         ),
+        #     ],
+        #     multiple=False
+        # ),
     ],
     justify="center",
     gap="xl",
@@ -255,28 +274,33 @@ resumen_content = main_structure(
     menu=markdown_description,
     structure=[
         # Fila 1
-        [[dmc.Paper(children=[sliders_stack], p="xl", shadow="xs", withBorder=True, style={"overflow": "visible", "height": "auto","borderRadius":"10px"})], [paper(scatter_content)]],
+        [
+            # [dmc.Paper(children=[sliders_stack], p="xl", shadow="xs", withBorder=True, style={"overflow": "visible", "height": "auto","borderRadius":"10px"})], 
+         [paper([sliders_stack])],
+         [paper([scatter_content])]
+         
+         ],
         # Fila 2
         [
             # Primer elemento de la fila 2
             [
-                paper(histogram_beta_0_content),
+                paper([histogram_beta_0_content]),
                 dmc.Space(h=10),
-                paper(html.Div(id="beta_0_stats"), ""),
+                paper([html.Div(id="beta_0_stats")], ""),
             ],
             # Segundo elemento de la fila 2
             [
-                paper(histogram_beta_1_content),
+                paper([histogram_beta_1_content]),
                 dmc.Space(h=10),
-                paper(html.Div(id="beta_1_stats"), ""),
+                paper([html.Div(id="beta_1_stats")], ""),
             ],
         ],
         # Fila 3
         [
             [
-                paper(histogram_beta_2_content),
+                paper([histogram_beta_2_content]),
                 dmc.Space(h=10),
-                paper(html.Div(id="beta_2_stats"), ""),
+                paper([html.Div(id="beta_2_stats")], ""),
             ],
             [],
         ],

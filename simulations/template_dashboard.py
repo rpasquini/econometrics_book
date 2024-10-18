@@ -158,6 +158,70 @@ def create_graph(id, title, information=""):
     )
 
 
+def title_with_hovercard(title:str, information:str=""):
+    """
+    Creates a styled title with a hoverable icon that displays additional information when hovered.
+
+    This function generates a group consisting of:
+    - A title displayed in bold font.
+    - A hoverable question mark icon next to the title. When hovered over, a card with additional information is shown.
+
+    Parameters:
+    -----------
+    title : str
+        The main title text to display with bold styling.
+    information : str, optional
+        The content to display in the hovercard when the question mark icon is hovered. 
+        Supports Markdown and math formatting. Defaults to an empty string.
+
+    Returns:
+    --------
+    dmc.Group
+        A group component with the title and hovercard, structured using Mantine's Group and HoverCard components.
+    """
+    return dmc.Group(
+                [
+                 # Esto es el titulo
+                    dmc.Text(title, fw=800), 
+                 # Esto es el hovercard (signo de pregunta)  
+                    dmc.HoverCard(
+                        withArrow=True,
+                        width=400,
+                        shadow="md",
+                        children=[
+                            dmc.HoverCardTarget(
+                                dmc.ThemeIcon(
+                                    "?",
+                                    size="sm",
+                                    radius="xl",
+                                    color="gray",
+                                    variant="light",
+                                )
+                            ),
+                            dmc.HoverCardDropdown(
+                                html.Div(
+                                    dcc.Markdown(
+                                        children=information,
+                                        mathjax=True,
+                                        # size="sm",
+                                        style={
+                                            # "white-space": "pre-line",
+                                            # "overflow-x": "scroll",
+                                            "font-weight": "normal",
+                                            "font-size": "14px",
+                                            "text-align": "justify",
+                                            "width": "100%"
+                                        },
+                                    ),
+                                ),
+                            ),
+                        ],
+                    ),
+                ],
+                # spacing="xs",
+            )
+        
+        
 def paper(content, height=COMPONENT_HEIGHT):
     # fmt: off
     print(*content)
