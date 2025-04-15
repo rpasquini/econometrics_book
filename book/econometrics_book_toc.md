@@ -1,11 +1,14 @@
-# Welcome to Econometrics
+# Welcome to Econometrics with Simulations
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
 
-Check out the content pages bundled with this sample book to see more.
+# Simulations Index
 
+Regression
+1. [Unbiasedness and Variance of OLS](http://simuecon.com/unbiasedness)
+2. [Multicollinearity](http://simuecon.com/multicollinearity)
+3. [Ommited Variable Bias](http://simuecon.com/obv) 
+
+
+# Teaching materials (in progress)
 ```{tableofcontents}
 ```
