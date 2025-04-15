@@ -11,9 +11,9 @@ def run_dash_app(script_name, port, base_path):
 if __name__ == "__main__":
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     dashboards = [
-        (os.path.join(base_dir, "unbiasedness/unbiasedness_simulation.py"), 8001, "/unbiasedness"),
-        (os.path.join(base_dir, "multicollinearity/multicollinearity.py"), 8002, "/multicollinearity"),
-        (os.path.join(base_dir, "obv/obv.py"), 8003, "/obv"),
+        ("../unbiasedness/unbiasedness_simulation.py", 8001, "/unbiasedness"),
+        ("../multicollinearity/multicollinearity.py", 8002, "/multicollinearity"),
+        ("../obv/obv.py", 8003, "/obv"),
         # (os.path.join(base_dir, "hypothesis_testing/hypothesis_testing.py"), 8004, "/hypothesis_testing"),
     ]
 
