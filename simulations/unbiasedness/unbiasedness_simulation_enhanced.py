@@ -29,6 +29,36 @@ title_style = {
     "textAlign": "left",
 }
 
+# Helper function for hovercards
+def create_title_with_hovercard(title, information):
+    return dmc.Group(
+        [
+            dmc.Text(title, fw=800),
+            dmc.HoverCard(
+                withArrow=True,
+                width=200,
+                shadow="md",
+                children=[
+                    dmc.HoverCardTarget(
+                        dmc.ThemeIcon(
+                            "?",
+                            size="sm",
+                            radius="xl",
+                            color="gray",
+                            variant="light",
+                        )
+                    ),
+                    dmc.HoverCardDropdown(
+                        dmc.Text(
+                            information,
+                            size="sm",
+                        )
+                    ),
+                ],
+            ),
+        ],
+    )
+
 ############### FUNCIONES PROPIAS DE ESTA SIMULACIÓN ################
 
 # Funciones para la lógica de la aplicación
@@ -351,7 +381,10 @@ app.layout = dmc.MantineProvider(
                                             radius="md",
                                             style={"backgroundColor": "white", "height": "400px", "display": "flex", "flexDirection": "column"},
                                             children=[
-                                                dmc.Title("Ajuste de parámetros", order=3, style=title_style),
+                                                create_title_with_hovercard(
+                                                    "Ajuste de parámetros",
+                                                    "Estos parámetros cambian los supuestos del modelo poblacional a ser estimado."
+                                                ),
                                                 dmc.Divider(my="sm"),
                                                 dcc.Markdown(
                                                     "*Desviación estándar del error* $(\\sigma_{\\varepsilon})$", mathjax=True
@@ -393,7 +426,10 @@ app.layout = dmc.MantineProvider(
                                             radius="md",
                                             style={"backgroundColor": "white"},
                                             children=[
-                                                dmc.Title("Gráfico de dispersión", order=3, style=title_style),
+                                                create_title_with_hovercard(
+                                                    "Gráfico de dispersión",
+                                                    "Incluye una muestra de datos obtenidos de la población. Cada punto es un dato de la muestra: un par de X e Y"
+                                                ),
                                                 dmc.Divider(my="sm"),
                                                 dcc.Graph(
                                                     id="scatter",
@@ -416,7 +452,10 @@ app.layout = dmc.MantineProvider(
                                             radius="md",
                                             style={"backgroundColor": "white"},
                                             children=[
-                                                dmc.Title("Distribución de estimaciones de β₀", order=3, style=title_style),
+                                                create_title_with_hovercard(
+                                                    "Distribución de estimaciones de β₀",
+                                                    "El histograma muestra la distribución de las estimaciones simuladas de β₀"
+                                                ),
                                                 dmc.Divider(my="sm"),
                                                 dcc.Graph(
                                                     id="histogram_estimator_beta_0",
@@ -449,7 +488,10 @@ app.layout = dmc.MantineProvider(
                                             radius="md",
                                             style={"backgroundColor": "white"},
                                             children=[
-                                                dmc.Title("Distribución de estimaciones de β₁", order=3, style=title_style),
+                                                create_title_with_hovercard(
+                                                    "Distribución de estimaciones de β₁",
+                                                    "El histograma muestra la distribución de las estimaciones simuladas de β₁"
+                                                ),
                                                 dmc.Divider(my="sm"),
                                                 dcc.Graph(
                                                     id="histogram_estimator_beta_1",
