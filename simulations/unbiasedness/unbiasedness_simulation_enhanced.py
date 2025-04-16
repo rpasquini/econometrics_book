@@ -144,7 +144,9 @@ app.layout = dmc.MantineProvider(
                             children=[
                                 dmc.AccordionItem(
                                     [
-                                        dmc.AccordionControl("Introducción"),
+                                        dmc.AccordionControl(
+                                            html.Span("Introducción", style={"fontWeight": "bold", "fontSize": "18px"}),
+                                        ),
                                         dmc.AccordionPanel(
                                             dcc.Markdown(
                                                 """
@@ -167,7 +169,9 @@ app.layout = dmc.MantineProvider(
                                 ),
                                 dmc.AccordionItem(
                                     [
-                                        dmc.AccordionControl("Demostración de Insesgadez"),
+                                        dmc.AccordionControl(
+                                            html.Span("Demostración de Insesgadez", style={"fontWeight": "bold", "fontSize": "18px"}),
+                                        ),
                                         dmc.AccordionPanel(
                                             dcc.Markdown(
                                                 """
@@ -193,7 +197,9 @@ app.layout = dmc.MantineProvider(
                                 ),
                                 dmc.AccordionItem(
                                     [
-                                        dmc.AccordionControl("Determinantes de la Varianza de la Estimación"),
+                                        dmc.AccordionControl(
+                                            html.Span("Determinantes de la Varianza de la Estimación", style={"fontWeight": "bold", "fontSize": "18px"}),
+                                        ),
                                         dmc.AccordionPanel(
                                             dcc.Markdown(
                                                 """
@@ -217,7 +223,9 @@ app.layout = dmc.MantineProvider(
                                 ),
                                 dmc.AccordionItem(
                                     [
-                                        dmc.AccordionControl("Metodología"),
+                                        dmc.AccordionControl(
+                                            html.Span("Metodología", style={"fontWeight": "bold", "fontSize": "18px"}),
+                                        ),
                                         dmc.AccordionPanel(
                                             dcc.Markdown(
                                                 """
@@ -263,7 +271,7 @@ app.layout = dmc.MantineProvider(
                                             p="md",
                                             withBorder=True,
                                             radius="md",
-                                            style={"backgroundColor": "#f8f9fa"},
+                                            style={"backgroundColor": "white", "height": "400px", "display": "flex", "flexDirection": "column"},
                                             children=[
                                                 dmc.Title("Ajuste de parámetros", order=3, style=title_style),
                                                 dmc.Divider(my="sm"),
@@ -292,6 +300,8 @@ app.layout = dmc.MantineProvider(
                                                     size="md",
                                                     style={"width": "80%"},
                                                 ),
+                                                # Add a spacer to push content to the top
+                                                html.Div(style={"flexGrow": 1}),
                                             ]
                                         ),
                                     ]
@@ -301,9 +311,9 @@ app.layout = dmc.MantineProvider(
                                     children=[
                                         dmc.Paper(
                                             p="md",
-                                            withBorder=False,
+                                            withBorder=True,
                                             radius="md",
-                                            style={"backgroundColor": "#f8f9fa"},
+                                            style={"backgroundColor": "white"},
                                             children=[
                                                 dmc.Title("Gráfico de dispersión", order=3, style=title_style),
                                                 dmc.Divider(my="sm"),
@@ -326,7 +336,7 @@ app.layout = dmc.MantineProvider(
                                             p="md",
                                             withBorder=True,
                                             radius="md",
-                                            style={"backgroundColor": "#f8f9fa"},
+                                            style={"backgroundColor": "white"},
                                             children=[
                                                 dmc.Title("Distribución de estimaciones de β₀", order=3, style=title_style),
                                                 dmc.Divider(my="sm"),
@@ -344,6 +354,7 @@ app.layout = dmc.MantineProvider(
                                                     title="Estadísticas",
                                                     color="blue",
                                                     variant="light",
+                                                    style={"backgroundColor": "white"},
                                                     children=[
                                                         html.Div(id="beta_0_stats")
                                                     ]
@@ -359,7 +370,7 @@ app.layout = dmc.MantineProvider(
                                             p="md",
                                             withBorder=True,
                                             radius="md",
-                                            style={"backgroundColor": "#f8f9fa"},
+                                            style={"backgroundColor": "white"},
                                             children=[
                                                 dmc.Title("Distribución de estimaciones de β₁", order=3, style=title_style),
                                                 dmc.Divider(my="sm"),
@@ -377,6 +388,7 @@ app.layout = dmc.MantineProvider(
                                                     title="Estadísticas",
                                                     color="blue",
                                                     variant="light",
+                                                    style={"backgroundColor": "white"},
                                                     children=[
                                                         html.Div(id="beta_1_stats")
                                                     ]
