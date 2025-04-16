@@ -14,6 +14,21 @@ import argparse
 # Set React version to 18.2.0 which is supported by Dash
 dash._dash_renderer._set_react_version("18.2.0")
 
+# Define style constants to match the original
+style = {
+    "width": "100%",
+    "marginTop": 20,
+    "marginBottom": 20,
+}
+
+# Define title style to match the original
+title_style = {
+    "marginBottom": 0,
+    "marginLeft": 0,
+    "marginTop": 10,
+    "textAlign": "left",
+}
+
 ############### FUNCIONES PROPIAS DE ESTA SIMULACIÓN ################
 
 # Funciones para la lógica de la aplicación
@@ -100,275 +115,280 @@ app.layout = dmc.MantineProvider(
         },
     },
     children=[
-        dmc.Container(
-            size="lg",
+        html.Div(
+            style={"backgroundColor": "#f8f9fa", "minHeight": "100vh", "width": "100%"},
             children=[
-                # Title with Mantine components
-                dmc.Paper(
-                    p="md",
-                    withBorder=True,
-                    radius="md",
+                dmc.Container(
+                    size="lg",
+                    style=style,
                     children=[
-                        dmc.Group(
-                            justify="space-between",
+                        # Title with Mantine components
+                        dmc.Paper(
+                            p="md",
+                            withBorder=False,
+                            radius="md",
+                            style={"backgroundColor": "#f8f9fa"},
                             children=[
-                                dmc.Title("Simulación: Insesgadez y Varianza de Estimadores OLS", order=1, c="blue"),
-                                dmc.ActionIcon(
-                                    variant="filled",
-                                    color="blue",
-                                    size="lg",
-                                    children=[html.I(className="fas fa-cog")],
+                                dmc.Group(
+                                    justify="space-between",
+                                    children=[
+                                        dmc.Title("Simulación: Insesgadez y Varianza de Estimadores OLS", order=1, style=title_style),
+                                    ],
                                 ),
                             ],
                         ),
-                    ],
-                ),
-                dmc.Space(h=20),
-                
-                # Accordion for static information
-                dmc.Accordion(
-                    children=[
-                        dmc.AccordionItem(
-                            [
-                                dmc.AccordionControl("Introducción"),
-                                dmc.AccordionPanel(
-                                    dcc.Markdown(
-                                        """
-                                        Esta simulación demuestra la insesgadez y los determinantes de la varianza de los estimadores OLS de $\\beta_0$ y $\\beta_1$ en el modelo poblacional:
-                                        $$
-                                        Y_i = \\beta_0 + \\beta_1 X_i + \\varepsilon_i
-                                        $$
+                        dmc.Space(h=20),
+                        
+                        # Accordion for static information
+                        dmc.Accordion(
+                            children=[
+                                dmc.AccordionItem(
+                                    [
+                                        dmc.AccordionControl("Introducción"),
+                                        dmc.AccordionPanel(
+                                            dcc.Markdown(
+                                                """
+                                                Esta simulación demuestra la insesgadez y los determinantes de la varianza de los estimadores OLS de $\\beta_0$ y $\\beta_1$ en el modelo poblacional:
+                                                $$
+                                                Y_i = \\beta_0 + \\beta_1 X_i + \\varepsilon_i
+                                                $$
 
-                                        En particular, supondremos que $\\beta_0 = 10$ y $\\beta_1 = 3$.
+                                                En particular, supondremos que $\\beta_0 = 10$ y $\\beta_1 = 3$.
 
-                                        $$
-                                        Y_i = 10 + 3 X_i + \\varepsilon_i
-                                        $$
-                                        """,
-                                        mathjax=True
-                                    )
+                                                $$
+                                                Y_i = 10 + 3 X_i + \\varepsilon_i
+                                                $$
+                                                """,
+                                                mathjax=True
+                                            )
+                                        ),
+                                    ],
+                                    value="intro"
+                                ),
+                                dmc.AccordionItem(
+                                    [
+                                        dmc.AccordionControl("Demostración de Insesgadez"),
+                                        dmc.AccordionPanel(
+                                            dcc.Markdown(
+                                                """
+                                                La propiedad de insesgadez de los estimadores OLS dice que, en valor esperado, las estimaciones son iguales a los verdaderos valores poblacionales. En este caso, esto sería:
+
+                                                $$
+                                                E[\\hat{\\beta}_0] = 10
+                                                $$
+                                                $$
+                                                E[\\hat{\\beta}_1] = 3
+                                                $$
+
+                                                Para demostrar numéricamente que esta propiedad se cumple, mostramos que la simulación de múltiples estimaciones OLS cumplen que :
+
+                                                1. La distribución de las estimación de los respectivos coeficientes se centra cerca de los valores verdaderos $(\\beta_0 = 10, \\beta_1 = 3)$.
+                                                2. El promedio de las estimaciones es cercano a los valores verdaderos.
+                                                """,
+                                                mathjax=True
+                                            )
+                                        ),
+                                    ],
+                                    value="unbiasedness"
+                                ),
+                                dmc.AccordionItem(
+                                    [
+                                        dmc.AccordionControl("Determinantes de la Varianza de la Estimación"),
+                                        dmc.AccordionPanel(
+                                            dcc.Markdown(
+                                                """
+                                                La varianza de los estimadores OLS ( $\\hat{\\beta_0}$ y $\\hat{\\beta_1}$ está determinada por dos factores:
+
+                                                1. **Varianza del término de error:** 
+                                                       - Un aumento en el error del modelo se traduce en mayor imprecisión de la estimación del modelo.
+                                                       - Esto se refleja en histogramas más anchos para $\\hat{\\beta_0}$ y $\\hat{\\beta_1}$.
+                                                       - Mayor varianza estimada de las estimaciones realizadas (Ver valor en la tabla)).
+
+                                                2. **Varianza de $X$:**
+                                                       - Ceteris paribus, una  mayor dispersión en los valores de la variable explicativa $X$ reduce la imprecisión de la estimación $\\hat{\\beta_0}$ y $\\hat{\\beta_1}$ .
+                                                       - Esto se refleja en histogramas más estrecho para $\\hat{\\beta_0}$ y $\\hat{\\beta_1}$.
+                                                       - Menor varianza estimada de las estimaciones realizadas (Ver valor en la tabla)).
+                                                """,
+                                                mathjax=True
+                                            )
+                                        ),
+                                    ],
+                                    value="variance"
+                                ),
+                                dmc.AccordionItem(
+                                    [
+                                        dmc.AccordionControl("Metodología"),
+                                        dmc.AccordionPanel(
+                                            dcc.Markdown(
+                                                """
+                                                1. **Generación de muestras:**
+                                                       - Se crean 500 muestras independientes.
+                                                       - Cada muestra contiene 250 observaciones.
+
+                                                2. **Modelado de variables para cada muestra:**
+                                                       - X: Generada con distribución normal
+                                                         * Media = 10
+                                                         * Desviación estándar = ajustable por el usuario (slider_value_x)
+                                                       - $\\epsilon$ (error): Generada con distribución normal
+                                                         * Media = 0
+                                                         * Desviación estándar = ajustable por el usuario (slider_value)
+                                                       - Y: Calculada usando el modelo poblacional supuesto:
+                                                         * $Y = 10 + 3X + \\varepsilon $
+
+                                                3. **Estimación:**
+                                                       - Para cada muestra, se estiman $\\beta_0$ y $\\beta_1$ usando OLS.
+                                                       - Se recopilan todas las estimaciones para crear los histogramas.
+
+                                              Ajusta los sliders para observar cómo la variabilidad en $X$ y $\\epsilon$ afecta las estimaciones de $\\beta_0$ y $\\beta_1$.
+                                              """,
+                                                mathjax=True
+                                            )
+                                        ),
+                                    ],
+                                    value="methodology"
                                 ),
                             ],
                             value="intro"
                         ),
-                        dmc.AccordionItem(
-                            [
-                                dmc.AccordionControl("Demostración de Insesgadez"),
-                                dmc.AccordionPanel(
-                                    dcc.Markdown(
-                                        """
-                                        La propiedad de insesgadez de los estimadores OLS dice que, en valor esperado, las estimaciones son iguales a los verdaderos valores poblacionales. En este caso, esto sería:
-
-                                        $$
-                                        E[\\hat{\\beta}_0] = 10
-                                        $$
-                                        $$
-                                        E[\\hat{\\beta}_1] = 3
-                                        $$
-
-                                        Para demostrar numéricamente que esta propiedad se cumple, mostramos que la simulación de múltiples estimaciones OLS cumplen que :
-
-                                        1. La distribución de las estimación de los respectivos coeficientes se centra cerca de los valores verdaderos $(\\beta_0 = 10, \\beta_1 = 3)$.
-                                        2. El promedio de las estimaciones es cercano a los valores verdaderos.
-                                        """,
-                                        mathjax=True
-                                    )
-                                ),
-                            ],
-                            value="unbiasedness"
-                        ),
-                        dmc.AccordionItem(
-                            [
-                                dmc.AccordionControl("Determinantes de la Varianza de la Estimación"),
-                                dmc.AccordionPanel(
-                                    dcc.Markdown(
-                                        """
-                                        La varianza de los estimadores OLS ( $\\hat{\\beta_0}$ y $\\hat{\\beta_1}$ está determinada por dos factores:
-
-                                        1. **Varianza del término de error:** 
-                                               - Un aumento en el error del modelo se traduce en mayor imprecisión de la estimación del modelo.
-                                               - Esto se refleja en histogramas más anchos para $\\hat{\\beta_0}$ y $\\hat{\\beta_1}$.
-                                               - Mayor varianza estimada de las estimaciones realizadas (Ver valor en la tabla)).
-
-                                        2. **Varianza de $X$:**
-                                               - Ceteris paribus, una  mayor dispersión en los valores de la variable explicativa $X$ reduce la imprecisión de la estimación $\\hat{\\beta_0}$ y $\\hat{\\beta_1}$ .
-                                               - Esto se refleja en histogramas más estrecho para $\\hat{\\beta_0}$ y $\\hat{\\beta_1}$.
-                                               - Menor varianza estimada de las estimaciones realizadas (Ver valor en la tabla)).
-                                        """,
-                                        mathjax=True
-                                    )
-                                ),
-                            ],
-                            value="variance"
-                        ),
-                        dmc.AccordionItem(
-                            [
-                                dmc.AccordionControl("Metodología"),
-                                dmc.AccordionPanel(
-                                    dcc.Markdown(
-                                        """
-                                        1. **Generación de muestras:**
-                                               - Se crean 500 muestras independientes.
-                                               - Cada muestra contiene 250 observaciones.
-
-                                        2. **Modelado de variables para cada muestra:**
-                                               - X: Generada con distribución normal
-                                                 * Media = 10
-                                                 * Desviación estándar = ajustable por el usuario (slider_value_x)
-                                               - $\\epsilon$ (error): Generada con distribución normal
-                                                 * Media = 0
-                                                 * Desviación estándar = ajustable por el usuario (slider_value)
-                                               - Y: Calculada usando el modelo poblacional supuesto:
-                                                 * $Y = 10 + 3X + \\varepsilon $
-
-                                        3. **Estimación:**
-                                               - Para cada muestra, se estiman $\\beta_0$ y $\\beta_1$ usando OLS.
-                                               - Se recopilan todas las estimaciones para crear los histogramas.
-
-                                        Ajusta los sliders para observar cómo la variabilidad en $X$ y $\\epsilon$ afecta las estimaciones de $\\beta_0$ y $\\beta_1$.
-                                        """,
-                                        mathjax=True
-                                    )
-                                ),
-                            ],
-                            value="methodology"
-                        ),
-                    ],
-                    value="intro"
-                ),
-                dmc.Space(h=20),
-                
-                # Main content in a grid layout
-                dmc.Grid(
-                    [
-                        # First row: Sliders and Scatter plot
-                        dmc.GridCol(
-                            span=6,
-                            children=[
-                                dmc.Paper(
-                                    p="md",
-                                    withBorder=True,
-                                    radius="md",
-                                    children=[
-                                        dmc.Title("Ajuste de parámetros", order=3, c="blue"),
-                                        dmc.Divider(my="sm"),
-                                        dcc.Markdown(
-                                            "*Desviación estándar del error* $(\\sigma_{\\varepsilon})$", mathjax=True
-                                        ),
-                                        dmc.Slider(
-                                            id="std_error",
-                                            min=1,
-                                            max=50,
-                                            marks=[{"value": 1, "label": "1"}] + [{"value": x, "label": f"{x}"} for x in range(10, 51, 10)],
-                                            value=10,
-                                            color="blue",
-                                            size="md",
-                                            style={"width": "80%"},
-                                        ),
-                                        dmc.Space(h=10),
-                                        dcc.Markdown("Desviación estándar de $X$ $(\\sigma_{X})$", mathjax=True),
-                                        dmc.Slider(
-                                            id="std_error_x",
-                                            min=1,
-                                            max=50,
-                                            marks=[{"value": 1, "label": "1"}] + [{"value": x, "label": f"{x}"} for x in range(10, 51, 10)],
-                                            value=10,
-                                            color="blue",
-                                            size="md",
-                                            style={"width": "80%"},
-                                        ),
-                                    ]
-                                ),
-                            ]
-                        ),
-                        dmc.GridCol(
-                            span=6,
-                            children=[
-                                dmc.Paper(
-                                    p="md",
-                                    withBorder=True,
-                                    radius="md",
-                                    children=[
-                                        dmc.Title("Gráfico de dispersión", order=3, c="blue"),
-                                        dmc.Divider(my="sm"),
-                                        dcc.Graph(
-                                            id="scatter",
-                                            figure=create_scatter_plot(
-                                                *generate_sample(250, 10, 3, 10, 10, 10)
-                                            )
-                                        )
-                                    ]
-                                )
-                            ]
-                        ),
+                        dmc.Space(h=20),
                         
-                        # Second row: Histograms
-                        dmc.GridCol(
-                            span=6,
-                            children=[
-                                dmc.Paper(
-                                    p="md",
-                                    withBorder=True,
-                                    radius="md",
+                        # Main content in a grid layout
+                        dmc.Grid(
+                            [
+                                # First row: Sliders and Scatter plot
+                                dmc.GridCol(
+                                    span=6,
                                     children=[
-                                        dmc.Title("Distribución de estimaciones de β₀", order=3, c="blue"),
-                                        dmc.Divider(my="sm"),
-                                        dcc.Graph(
-                                            id="histogram_estimator_beta_0",
-                                            figure=create_histogram(
-                                                run_simulation(500, 250, 10, 3, 10, 10, 10)[:, 0],
-                                                [0, 20],
-                                                10,
-                                                "Estimación de β₀"
-                                            )
-                                        ),
-                                        dmc.Space(h=10),
-                                        dmc.Alert(
-                                            title="Estadísticas",
-                                            color="blue",
-                                            variant="light",
+                                        dmc.Paper(
+                                            p="md",
+                                            withBorder=True,
+                                            radius="md",
+                                            style={"backgroundColor": "#f8f9fa"},
                                             children=[
-                                                html.Div(id="beta_0_stats")
+                                                dmc.Title("Ajuste de parámetros", order=3, style=title_style),
+                                                dmc.Divider(my="sm"),
+                                                dcc.Markdown(
+                                                    "*Desviación estándar del error* $(\\sigma_{\\varepsilon})$", mathjax=True
+                                                ),
+                                                dmc.Slider(
+                                                    id="std_error",
+                                                    min=1,
+                                                    max=50,
+                                                    marks=[{"value": 1, "label": "1"}] + [{"value": x, "label": f"{x}"} for x in range(10, 51, 10)],
+                                                    value=10,
+                                                    color="blue",
+                                                    size="md",
+                                                    style={"width": "80%"},
+                                                ),
+                                                dmc.Space(h=10),
+                                                dcc.Markdown("Desviación estándar de $X$ $(\\sigma_{X})$", mathjax=True),
+                                                dmc.Slider(
+                                                    id="std_error_x",
+                                                    min=1,
+                                                    max=50,
+                                                    marks=[{"value": 1, "label": "1"}] + [{"value": x, "label": f"{x}"} for x in range(10, 51, 10)],
+                                                    value=10,
+                                                    color="blue",
+                                                    size="md",
+                                                    style={"width": "80%"},
+                                                ),
+                                            ]
+                                        ),
+                                    ]
+                                ),
+                                dmc.GridCol(
+                                    span=6,
+                                    children=[
+                                        dmc.Paper(
+                                            p="md",
+                                            withBorder=False,
+                                            radius="md",
+                                            style={"backgroundColor": "#f8f9fa"},
+                                            children=[
+                                                dmc.Title("Gráfico de dispersión", order=3, style=title_style),
+                                                dmc.Divider(my="sm"),
+                                                dcc.Graph(
+                                                    id="scatter",
+                                                    figure=create_scatter_plot(
+                                                        *generate_sample(250, 10, 3, 10, 10, 10)
+                                                    )
+                                                )
                                             ]
                                         )
                                     ]
-                                )
-                            ]
-                        ),
-                        dmc.GridCol(
-                            span=6,
-                            children=[
-                                dmc.Paper(
-                                    p="md",
-                                    withBorder=True,
-                                    radius="md",
+                                ),
+                                
+                                # Second row: Histograms
+                                dmc.GridCol(
+                                    span=6,
                                     children=[
-                                        dmc.Title("Distribución de estimaciones de β₁", order=3, c="blue"),
-                                        dmc.Divider(my="sm"),
-                                        dcc.Graph(
-                                            id="histogram_estimator_beta_1",
-                                            figure=create_histogram(
-                                                run_simulation(500, 250, 10, 3, 10, 10, 10)[:, 1],
-                                                [0, 6],
-                                                3,
-                                                "Estimación de β₁"
-                                            )
-                                        ),
-                                        dmc.Space(h=10),
-                                        dmc.Alert(
-                                            title="Estadísticas",
-                                            color="blue",
-                                            variant="light",
+                                        dmc.Paper(
+                                            p="md",
+                                            withBorder=True,
+                                            radius="md",
+                                            style={"backgroundColor": "#f8f9fa"},
                                             children=[
-                                                html.Div(id="beta_1_stats")
+                                                dmc.Title("Distribución de estimaciones de β₀", order=3, style=title_style),
+                                                dmc.Divider(my="sm"),
+                                                dcc.Graph(
+                                                    id="histogram_estimator_beta_0",
+                                                    figure=create_histogram(
+                                                        run_simulation(500, 250, 10, 3, 10, 10, 10)[:, 0],
+                                                        [0, 20],
+                                                        10,
+                                                        "Estimación de β₀"
+                                                    )
+                                                ),
+                                                dmc.Space(h=10),
+                                                dmc.Alert(
+                                                    title="Estadísticas",
+                                                    color="blue",
+                                                    variant="light",
+                                                    children=[
+                                                        html.Div(id="beta_0_stats")
+                                                    ]
+                                                )
                                             ]
                                         )
                                     ]
-                                )
+                                ),
+                                dmc.GridCol(
+                                    span=6,
+                                    children=[
+                                        dmc.Paper(
+                                            p="md",
+                                            withBorder=True,
+                                            radius="md",
+                                            style={"backgroundColor": "#f8f9fa"},
+                                            children=[
+                                                dmc.Title("Distribución de estimaciones de β₁", order=3, style=title_style),
+                                                dmc.Divider(my="sm"),
+                                                dcc.Graph(
+                                                    id="histogram_estimator_beta_1",
+                                                    figure=create_histogram(
+                                                        run_simulation(500, 250, 10, 3, 10, 10, 10)[:, 1],
+                                                        [0, 6],
+                                                        3,
+                                                        "Estimación de β₁"
+                                                    )
+                                                ),
+                                                dmc.Space(h=10),
+                                                dmc.Alert(
+                                                    title="Estadísticas",
+                                                    color="blue",
+                                                    variant="light",
+                                                    children=[
+                                                        html.Div(id="beta_1_stats")
+                                                    ]
+                                                )
+                                            ]
+                                        )
+                                    ]
+                                ),
                             ]
                         ),
                     ]
-                ),
+                )
             ]
         )
     ]
