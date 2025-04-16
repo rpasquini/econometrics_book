@@ -98,6 +98,84 @@ def calculate_stats(beta_0_list, beta_1_list):
     }
 
 
+def create_stats_table(
+    stats={"mean": 0, "std": 0},
+    true_value=0,
+    parameter_name="unknown",
+    custom=False,
+    custom_title="",
+    custom_dict_varnames=dict(),
+):
+    if custom:
+        table = dmc.Table(
+            striped=True,
+            highlightOnHover=True,
+            withTableBorder=True,
+            withColumnBorders=True,
+            children=[
+                html.Thead(
+                    html.Tr(
+                        [
+                            html.Th("Estadística", style={"textAlign": "center"}),
+                            html.Th("Valor", style={"textAlign": "center"}),
+                        ]
+                    )
+                ),
+                html.Tbody(
+                    [
+                        html.Tr(
+                            [
+                                html.Td(custom_dict_varnames.get(k, k), style={"textAlign": "center"}),
+                                html.Td(f"{v:.4f}", style={"textAlign": "center"}),
+                            ]
+                        )
+                        for k, v in stats.items()
+                    ]
+                ),
+            ],
+        )
+    else:
+        table = dmc.Table(
+            striped=True,
+            highlightOnHover=True,
+            withTableBorder=True,
+            withColumnBorders=True,
+            children=[
+                html.Thead(
+                    html.Tr(
+                        [
+                            html.Th("Estadística", style={"textAlign": "center"}),
+                            html.Th("Valor", style={"textAlign": "center"}),
+                        ]
+                    )
+                ),
+                html.Tbody(
+                    [
+                        html.Tr(
+                            [
+                                html.Td("Media", style={"textAlign": "center"}),
+                                html.Td(f"{stats['mean']:.4f}", style={"textAlign": "center"}),
+                            ]
+                        ),
+                        html.Tr(
+                            [
+                                html.Td("Desviación estándar", style={"textAlign": "center"}),
+                                html.Td(f"{stats['std']:.4f}", style={"textAlign": "center"}),
+                            ]
+                        ),
+                        html.Tr(
+                            [
+                                html.Td("Valor verdadero", style={"textAlign": "center"}),
+                                html.Td(f"{true_value}", style={"textAlign": "center"}),
+                            ]
+                        ),
+                    ]
+                ),
+            ],
+        )
+    return table
+
+
 ############### INSTANCIA DE LA APP ###############
 app = Dash(__name__, suppress_callback_exceptions=True)
 
@@ -351,7 +429,6 @@ app.layout = dmc.MantineProvider(
                                                 ),
                                                 dmc.Space(h=10),
                                                 dmc.Alert(
-                                                    title="Estadísticas",
                                                     color="blue",
                                                     variant="light",
                                                     style={"backgroundColor": "white"},
@@ -385,7 +462,6 @@ app.layout = dmc.MantineProvider(
                                                 ),
                                                 dmc.Space(h=10),
                                                 dmc.Alert(
-                                                    title="Estadísticas",
                                                     color="blue",
                                                     variant="light",
                                                     style={"backgroundColor": "white"},
@@ -445,82 +521,20 @@ def update_histogram(error_std, x_std):
     beta_1_stats = {"mean": np.mean(estimates[:, 1]), "std": np.std(estimates[:, 1])}
 
     # Crear tablas de estadísticas con Mantine components
-    beta_0_table = dmc.Table(
-        striped=True,
-        highlightOnHover=True,
-        withTableBorder=True,
-        withColumnBorders=True,
-        children=[
-            html.Thead(
-                html.Tr(
-                    [
-                        html.Th("Estadística"),
-                        html.Th("Valor"),
-                    ]
-                )
-            ),
-            html.Tbody(
-                [
-                    html.Tr(
-                        [
-                            html.Td("Media"),
-                            html.Td(f"{beta_0_stats['mean']:.4f}"),
-                        ]
-                    ),
-                    html.Tr(
-                        [
-                            html.Td("Desviación estándar"),
-                            html.Td(f"{beta_0_stats['std']:.4f}"),
-                        ]
-                    ),
-                    html.Tr(
-                        [
-                            html.Td("Valor verdadero"),
-                            html.Td(f"{beta_0}"),
-                        ]
-                    ),
-                ]
-            ),
-        ]
+    beta_0_table = create_stats_table(
+        beta_0_stats,
+        beta_0,
+        "β₀",
+        custom=False,
+        custom_title="Estadísticas de β₀"
     )
 
-    beta_1_table = dmc.Table(
-        striped=True,
-        highlightOnHover=True,
-        withTableBorder=True,
-        withColumnBorders=True,
-        children=[
-            html.Thead(
-                html.Tr(
-                    [
-                        html.Th("Estadística"),
-                        html.Th("Valor"),
-                    ]
-                )
-            ),
-            html.Tbody(
-                [
-                    html.Tr(
-                        [
-                            html.Td("Media"),
-                            html.Td(f"{beta_1_stats['mean']:.4f}"),
-                        ]
-                    ),
-                    html.Tr(
-                        [
-                            html.Td("Desviación estándar"),
-                            html.Td(f"{beta_1_stats['std']:.4f}"),
-                        ]
-                    ),
-                    html.Tr(
-                        [
-                            html.Td("Valor verdadero"),
-                            html.Td(f"{beta_1}"),
-                        ]
-                    ),
-                ]
-            ),
-        ]
+    beta_1_table = create_stats_table(
+        beta_1_stats,
+        beta_1,
+        "β₁",
+        custom=False,
+        custom_title="Estadísticas de β₁"
     )
 
     return fig_histogram_0, fig_histogram_1, fig_scatter, beta_0_table, beta_1_table
