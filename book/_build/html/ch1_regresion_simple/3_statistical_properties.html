@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Statistical Properties of Estimated Coefficients &#8212; My sample book</title>
+    <title>Statistical Properties of Estimated Coefficients &#8212; Econometrics with Simulations</title>
   
   
   
@@ -57,11 +57,12 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'ch1_regresion_simple/3_statistical_properties';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Bienvenidos a Econometría con Simulaciones" href="../econometrics_book_toc.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,6 +125,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -153,8 +156,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Econometrics with Simulations - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Econometrics with Simulations - Home"/>`);</script>
   
   
 </a></div>
@@ -179,8 +182,8 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Statistical Properties of Estimated Coefficients</a></li>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="3_statistical_properties_sp.html">Propiedades Estadísticas de los Coeficientes Estimados</a></li>
 </ul>
 
     </div>
@@ -235,7 +238,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+      <li><a href="https://github.com/rpasquini/econometrics_book" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -252,7 +255,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fch1_regresion_simple/3_statistical_properties.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/rpasquini/econometrics_book/issues/new?title=Issue%20on%20page%20%2Fch1_regresion_simple/3_statistical_properties.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -380,28 +383,15 @@ document.write(`
                   
   <section id="statistical-properties-of-estimated-coefficients">
 <h1>Statistical Properties of Estimated Coefficients<a class="headerlink" href="#statistical-properties-of-estimated-coefficients" title="Link to this heading">#</a></h1>
-<p>Regression analysis, at its core, attempts to uncover the relationship between a dependent variable (Y) and one or more independent variables (X). This process involves estimating coefficients that represent the strength and direction of these relationships. However, it’s crucial to recognize that these coefficients are not absolute truths, but rather estimates derived from a sample of data. Understanding the statistical properties of these estimates is crucial for drawing valid conclusions about the relationships between variables.</p>
-<p><strong>1. Unbiasedness:</strong> The first key property is that regression coefficients are <strong>unbiased estimators</strong>. This means that, on average, the estimated coefficients will equal the true population coefficients. Imagine repeating the regression analysis with different samples from the same population. While individual estimates may vary due to the inherent randomness of sampling, their average will converge towards the true value. This property ensures that our estimates are not systematically skewed in a particular direction, providing a level of confidence in their accuracy.</p>
-<p><strong>Visualizing Unbiasedness:</strong> Imagine we are trying to understand the relationship between the number of bedrooms in a rental property and its price. The true relationship, which we as researchers don’t know, might be represented by a specific coefficient for “bedrooms”. Let’s say the true coefficient is 5,000, meaning that each additional bedroom increases the price by 5,000 units (e.g., pesos). If we were to repeatedly sample different sets of rental properties and run our regression, we would get slightly different estimates for the “bedrooms” coefficient each time. Some estimates might be closer to the true value of 5,000, while others might be slightly higher or lower. However, if we average all of these estimates together, we would find that the average is very close to the true value of 5,000. This demonstrates the concept of unbiasedness – the estimates are not consistently overestimating or underestimating the true value, they are “centered” around it.</p>
+<p>Regression analysis, at its core, attempts to uncover the relationship between a dependent variable (<span class="math notranslate nohighlight">\(Y\)</span>) and one or more independent variables (<span class="math notranslate nohighlight">\(X\)</span>). This process involves estimating coefficients that represent the strength and direction of these relationships. However, it’s crucial to recognize that the resulting coefficients are not absolute truths (what statisticians call the population parameters), but rather estimates derived from a sample of data. Understanding how reliable these estimations are is crucial for drawing valid conclusions about the relationships between variables. The statistical properties of these estimates that we review here are meant to understand this question. In particular, we will examine the unbiasedness property and the determinants of variance. In the next chapter, we will tackle additional properties that allow hypothesis testing.</p>
+<p><strong>1. Unbiasedness:</strong> The first key property is that regression coefficients are <strong>unbiased estimators</strong>. This means that, on average, the estimated coefficients will equal the true population coefficients. Imagine repeating the regression analysis with different samples from the same population. While individual estimates may vary due to the inherent randomness of sampling, their average will converge toward the true value. This property ensures that our estimates are not systematically skewed in a particular direction, providing a level of confidence in their accuracy.</p>
+<p><strong>Visualizing Unbiasedness:</strong> Imagine we are trying to understand the relationship between the number of bedrooms in a rental property and its price. The true relationship, which we as researchers don’t know, might be represented by a specific coefficient for “bedrooms”. Let’s say the true coefficient is 5,000, meaning that each additional bedroom increases the price by 5,000 units (e.g., pesos). If we were to repeatedly sample different sets of rental properties and run our regression, we would get slightly different estimates for the “bedrooms” coefficient each time. Some estimates might be closer to the true value of 5,000, while others might be slightly higher or lower. However, if we average all of these estimates together, we would find that the average is very close to the true value of 5,000. This demonstrates the concept of unbiasedness – the estimates are not consistently overestimating or underestimating the true value; they are “centered” around it.</p>
 <p><strong>2. Variance:</strong> While unbiased, our estimates will always exhibit some degree of <strong>variance</strong>, which represents the uncertainty surrounding the estimated coefficient. This variance measures how much our estimated coefficients might deviate from the true population coefficients. A higher variance indicates a less precise estimate, meaning the true value could be further away from the estimated value. Conversely, a lower variance suggests a more reliable estimate, where the true value is likely closer to the estimated value. The variance of our estimates is influenced by two key factors:</p>
 <ul class="simple">
-<li><p><strong>Error in the model:</strong> The presence of unexplained variation in the dependent variable (Y) contributes to the variance of our estimates. This error can be attributed to factors not included in the model (e.g., other variables influencing price beyond bedrooms) or inherent randomness in the data. For example, even with similar bedrooms, some properties might be located in more desirable areas, impacting their price beyond the simple bedroom count. This unexplained variation adds noise to our estimations.</p></li>
+<li><p><strong>Error in the model:</strong> The presence of unexplained variation in the dependent variable (Y) contributes to the variance of our estimates. This error can be attributed to factors not included in the model (e.g., other variables influencing price beyond bedrooms) or inherent randomness in the data. For example, even with similar numbers of bedrooms, some properties might be located in more desirable areas, impacting their price beyond the simple bedroom count. This unexplained variation adds noise to our estimations.</p></li>
 <li><p><strong>Variability of the independent variable:</strong> A greater spread in the values of our independent variable (X) leads to lower variance in our coefficient estimates. This is because a wider range of X values provides more information to estimate the relationship with Y. If we were to analyze properties with a narrow range of bedrooms, for example, only 1 or 2 bedrooms, we would have less data to accurately determine the relationship between bedrooms and price. In contrast, analyzing properties with a broader range, from studios to 5-bedroom houses, would provide more robust data to estimate the impact of bedrooms on price.</p></li>
 </ul>
 <p><strong>Visualizing Variance:</strong> Think about the scatter plot of our rental data. If the data points are tightly clustered around the regression line, our estimated coefficients will have low variance, indicating a more precise estimate. However, if the data points are scattered widely, our estimated coefficients will have higher variance, reflecting more uncertainty about the true relationship.</p>
-<p><strong>3. Hypothesis Testing:</strong> Hypothesis testing provides a formal framework for assessing the statistical significance of our coefficients. A common hypothesis test examines whether a particular coefficient is equal to zero. This test essentially determines if there is a statistically significant relationship between the independent variable and the dependent variable.</p>
-<ul class="simple">
-<li><p><strong>The T-statistic:</strong> The T-statistic is a key component of this hypothesis test. It is calculated by dividing the estimated coefficient by its standard error (a measure of the variability of the estimate). A larger T-statistic suggests a stronger relationship, meaning the estimated effect is larger relative to its uncertainty. This also increases the likelihood of rejecting the null hypothesis of no effect.</p></li>
-<li><p><strong>P-value:</strong> The P-value represents the probability of observing the estimated coefficient, or a more extreme value, if the null hypothesis were true. A low P-value (typically less than 0.05) indicates strong evidence against the null hypothesis, leading to its rejection. This suggests a statistically significant relationship between the variables, implying that the observed effect is unlikely to be due to chance.</p></li>
-</ul>
-<p><strong>Understanding Significance:</strong> A statistically significant coefficient does not imply a “large” or “important” effect in practical terms. It simply means that the observed effect is unlikely to be due to random chance. The magnitude of the effect and its practical implications must be considered separately.</p>
-<p><strong>The interplay of these statistical properties is crucial for interpreting regression results:</strong></p>
-<ul class="simple">
-<li><p>An unbiased coefficient with low variance provides a reliable estimate of the true population relationship.</p></li>
-<li><p>Hypothesis testing allows us to determine the statistical significance of the relationship, helping to separate real effects from random fluctuations.</p></li>
-<li><p>These properties are crucial for drawing valid conclusions about the relationships between variables and for making informed decisions based on our findings.</p></li>
-</ul>
-<p>By understanding the statistical properties of estimated coefficients, researchers can move beyond simply calculating a regression line to make more informed inferences about the relationships between variables and to draw meaningful conclusions from their data.</p>
 <iframe src="https://www.simuecon.com/unbiasedness/" width="100%" height="600px">
 </iframe></section>
 
@@ -435,15 +425,6 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="../econometrics_book_toc.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Bienvenidos a Econometría con Simulaciones</p>
-      </div>
-    </a>
 </div>
                 </footer>
               

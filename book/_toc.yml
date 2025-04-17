@@ -8,7 +8,7 @@ chapters:
 #- file: ch1_regresion_simple/1_simple_regresion.md
 #  sections:
 #  - file: ch1_regresion_simple/2_colab_introduction.md
-- file: ch1_regresion_simple/3_statistical_properties.md
+- file: ch1_regresion_simple/3_statistical_properties_sp.md
 #- file: ch1_regresion_simple/4_interpreting_regression_results.md
 #- file: ch1_regresion_simple/5_assumptions_and_diagnostics.md
 #- file: ch1_regresion_simple/6_case_study_diagnostics.md

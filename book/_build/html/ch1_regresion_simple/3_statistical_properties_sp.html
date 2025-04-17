@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Case Study: Diagnosing and Addressing Assumptions in a Housing Rental Model &#8212; Econometrics with Simulations</title>
+    <title>Propiedades Estadísticas de los Coeficientes Estimados &#8212; Econometrics with Simulations</title>
   
   
   
@@ -57,10 +57,13 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'ch1_regresion_simple/6_case_study_diagnostics';</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ch1_regresion_simple/3_statistical_properties_sp';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Bienvenidos a Econometría con Simulaciones" href="../econometrics_book_toc.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -123,8 +126,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -180,8 +181,8 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="3_statistical_properties_sp.html">Propiedades Estadísticas de los Coeficientes Estimados</a></li>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Propiedades Estadísticas de los Coeficientes Estimados</a></li>
 </ul>
 
     </div>
@@ -253,7 +254,7 @@
       
       
       
-      <li><a href="https://github.com/rpasquini/econometrics_book/issues/new?title=Issue%20on%20page%20%2Fch1_regresion_simple/6_case_study_diagnostics.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/rpasquini/econometrics_book/issues/new?title=Issue%20on%20page%20%2Fch1_regresion_simple/3_statistical_properties_sp.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -283,7 +284,7 @@
       
       
       
-      <li><a href="../_sources/ch1_regresion_simple/6_case_study_diagnostics.md" target="_blank"
+      <li><a href="../_sources/ch1_regresion_simple/3_statistical_properties_sp.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -365,7 +366,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Case Study: Diagnosing and Addressing Assumptions in a Housing Rental Model</h1>
+    <h1>Propiedades Estadísticas de los Coeficientes Estimados</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -379,22 +380,19 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="case-study-diagnosing-and-addressing-assumptions-in-a-housing-rental-model">
-<h1>Case Study: Diagnosing and Addressing Assumptions in a Housing Rental Model<a class="headerlink" href="#case-study-diagnosing-and-addressing-assumptions-in-a-housing-rental-model" title="Link to this heading">#</a></h1>
-<p>This chapter demonstrates the practical application of diagnosing and addressing model assumptions using a case study of predicting housing rental prices in AMBA (Buenos Aires Metropolitan Area). We will:
-Load and prepare the data: Using geopandas, we will load a dataset containing rental prices and the number of bedrooms in AMBA. We will then clean the data, handling missing values (NaNs) and ensuring the necessary variables are available for the model.
-Estimate a basic linear regression model: We will estimate a linear regression model with rental price as the dependent variable and number of bedrooms as the independent variable. We will utilize the statsmodels library in Python to perform the regression analysis.
-Diagnose model assumptions: We will visually inspect the residuals to assess linearity, homoscedasticity, and normality.
-Linearity: A plot of residuals against the fitted values will be generated to identify any non-linear patterns.
-Homoscedasticity: A plot of residuals against the independent variable (bedrooms) will be examined for variations in the spread of residuals.
-Normality: A histogram of the residuals will be constructed to assess the normality of the error terms.
-Address violations of assumptions: We will demonstrate how to address violations of normality and homoscedasticity by transforming variables and using robust standard errors.
-Normality: If the normality assumption is violated, we will explore transforming the dependent variable (rental price) by taking its logarithm.
-Homoscedasticity: We will implement robust standard errors in the regression model to account for heteroscedasticity.
-Assess spatial autocorrelation: We will examine the spatial patterns of the residuals using a map to assess spatial autocorrelation. This involves plotting the residuals on a map of AMBA and observing if there are clusters of similar residuals in specific areas.
-This case study will illustrate the practical steps involved in ensuring the robustness and reliability of regression models by scrutinizing and addressing model assumptions.
-This section has provided a detailed overview of the key assumptions underpinning linear regression models, along with practical methods for diagnosing and addressing potential violations. The subsequent sections will provide a step-by-step guide to applying these techniques in a real-world case study.</p>
-</section>
+  <section id="propiedades-estadisticas-de-los-coeficientes-estimados">
+<h1>Propiedades Estadísticas de los Coeficientes Estimados<a class="headerlink" href="#propiedades-estadisticas-de-los-coeficientes-estimados" title="Link to this heading">#</a></h1>
+<p>El análisis de regresión, en su esencia, intenta descubrir la relación entre una variable dependiente (<span class="math notranslate nohighlight">\(Y\)</span>) y una o más variables independientes (<span class="math notranslate nohighlight">\(X\)</span>). Este proceso implica estimar coeficientes que representan la fuerza y dirección de estas relaciones. Sin embargo, es crucial reconocer que los coeficientes resultantes no son verdades absolutas (lo que los estadísticos llaman parámetros poblacionales), sino estimaciones derivadas de una muestra de datos. Comprender qué tan confiables son estas estimaciones es crucial para sacar conclusiones válidas sobre las relaciones entre variables. Las propiedades estadísticas de estas estimaciones que revisamos aquí están destinadas a entender esta pregunta. En particular, examinaremos la propiedad de insesgamiento y los determinantes de la varianza. En el próximo capítulo, abordaremos propiedades adicionales que permiten la prueba de hipótesis.</p>
+<p><strong>1. Insesgamiento:</strong> La primera propiedad clave es que los coeficientes de regresión son <strong>estimadores insesgados</strong>. Esto significa que, en promedio, los coeficientes estimados serán iguales a los verdaderos coeficientes poblacionales. Imagina repetir el análisis de regresión con diferentes muestras de la misma población. Si bien las estimaciones individuales pueden variar debido a la aleatoriedad inherente del muestreo, su promedio convergerá hacia el valor verdadero. Esta propiedad asegura que nuestras estimaciones no estén sistemáticamente sesgadas en una dirección particular, proporcionando un nivel de confianza en su precisión.</p>
+<p><strong>Visualizando el Insesgamiento:</strong> Imagina que estamos intentando entender la relación entre el número de habitaciones en una propiedad en alquiler y su precio. La relación verdadera, que nosotros como investigadores no conocemos, podría estar representada por un coeficiente específico para “habitaciones”. Digamos que el coeficiente verdadero es 5,000, lo que significa que cada habitación adicional aumenta el precio en 5,000 unidades (por ejemplo, pesos). Si fuéramos a muestrear repetidamente diferentes conjuntos de propiedades en alquiler y ejecutar nuestra regresión, obtendríamos estimaciones ligeramente diferentes para el coeficiente “habitaciones” cada vez. Algunas estimaciones podrían estar más cerca del valor verdadero de 5,000, mientras que otras podrían ser ligeramente más altas o más bajas. Sin embargo, si promediamos todas estas estimaciones juntas, encontraríamos que el promedio está muy cerca del valor verdadero de 5,000. Esto demuestra el concepto de insesgamiento – las estimaciones no están consistentemente sobreestimando o subestimando el valor verdadero; están “centradas” alrededor de él.</p>
+<p><strong>2. Varianza:</strong> Si bien son insesgadas, nuestras estimaciones siempre exhibirán algún grado de <strong>varianza</strong>, que representa la incertidumbre alrededor del coeficiente estimado. Esta varianza mide cuánto podrían desviarse nuestros coeficientes estimados de los verdaderos coeficientes poblacionales. Una varianza más alta indica una estimación menos precisa, lo que significa que el valor verdadero podría estar más lejos del valor estimado. Por el contrario, una varianza más baja sugiere una estimación más confiable, donde el valor verdadero probablemente esté más cerca del valor estimado. La varianza de nuestras estimaciones está influenciada por dos factores clave:</p>
+<ul class="simple">
+<li><p><strong>Error en el modelo:</strong> La presencia de variación no explicada en la variable dependiente (Y) contribuye a la varianza de nuestras estimaciones. Este error puede atribuirse a factores no incluidos en el modelo (por ejemplo, otras variables que influyen en el precio más allá de las habitaciones) o aleatoriedad inherente en los datos. Por ejemplo, incluso con números similares de habitaciones, algunas propiedades podrían estar ubicadas en áreas más deseables, afectando su precio más allá del simple conteo de habitaciones. Esta variación no explicada agrega ruido a nuestras estimaciones.</p></li>
+<li><p><strong>Variabilidad de la variable independiente:</strong> Una mayor dispersión en los valores de nuestra variable independiente (X) conduce a una menor varianza en nuestras estimaciones de coeficientes. Esto es porque un rango más amplio de valores de X proporciona más información para estimar la relación con Y. Si analizáramos propiedades con un rango estrecho de habitaciones, por ejemplo, solo 1 o 2 habitaciones, tendríamos menos datos para determinar con precisión la relación entre habitaciones y precio. En contraste, analizar propiedades con un rango más amplio, desde estudios hasta casas de 5 habitaciones, proporcionaría datos más robustos para estimar el impacto de las habitaciones en el precio.</p></li>
+</ul>
+<p><strong>Visualizando la Varianza:</strong> Piensa en el diagrama de dispersión de nuestros datos de alquiler. Si los puntos de datos están estrechamente agrupados alrededor de la línea de regresión, nuestros coeficientes estimados tendrán baja varianza, indicando una estimación más precisa. Sin embargo, si los puntos de datos están dispersos ampliamente, nuestros coeficientes estimados tendrán mayor varianza, reflejando más incertidumbre sobre la relación verdadera.</p>
+<iframe src="https://www.simuecon.com/unbiasedness/" width="100%" height="600px">
+</iframe> </section>
 
     <script type="text/x-thebe-config">
     {
@@ -426,6 +424,15 @@ This section has provided a detailed overview of the key assumptions underpinnin
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="../econometrics_book_toc.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Bienvenidos a Econometría con Simulaciones</p>
+      </div>
+    </a>
 </div>
                 </footer>
               

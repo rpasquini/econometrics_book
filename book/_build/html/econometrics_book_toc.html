@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Bienvenidos a Econometría con Simulaciones &#8212; My sample book</title>
+    <title>Bienvenidos a Econometría con Simulaciones &#8212; Econometrics with Simulations</title>
   
   
   
@@ -57,11 +57,13 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'econometrics_book_toc';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Statistical Properties of Estimated Coefficients" href="ch1_regresion_simple/3_statistical_properties.html" />
+    <link rel="next" title="Propiedades Estadísticas de los Coeficientes Estimados" href="ch1_regresion_simple/3_statistical_properties_sp.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -155,8 +157,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
-    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+    <img src="_static/logo.png" class="logo__image only-light" alt="Econometrics with Simulations - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Econometrics with Simulations - Home"/>`);</script>
   
   
 </a></div>
@@ -182,7 +184,7 @@
             </li>
         </ul>
         <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="ch1_regresion_simple/3_statistical_properties.html">Statistical Properties of Estimated Coefficients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch1_regresion_simple/3_statistical_properties_sp.html">Propiedades Estadísticas de los Coeficientes Estimados</a></li>
 </ul>
 
     </div>
@@ -237,7 +239,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+      <li><a href="https://github.com/rpasquini/econometrics_book" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -254,7 +256,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Feconometrics_book_toc.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/rpasquini/econometrics_book/issues/new?title=Issue%20on%20page%20%2Feconometrics_book_toc.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -420,7 +422,7 @@ document.write(`
 <h1>Contenidos (en progreso)<a class="headerlink" href="#contenidos-en-progreso" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="ch1_regresion_simple/3_statistical_properties.html">Statistical Properties of Estimated Coefficients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch1_regresion_simple/3_statistical_properties_sp.html">Propiedades Estadísticas de los Coeficientes Estimados</a></li>
 </ul>
 </div>
 </section>
@@ -437,10 +439,10 @@ document.write(`
 <h2>Instituciones que nos apoyan<a class="headerlink" href="#instituciones-que-nos-apoyan" title="Link to this heading">#</a></h2>
 <div style="text-align: center;">
 <a href="https://www.austral.edu.ar/cienciasempresariales/">
-<img src="./images/logo_empresariales_color.png" alt="Facultad de Ciencias Empresariales, Universidad Austral" style="width: 50%; max-width: 300px;">
+<img src="./images/logo_empresariales_color.png" alt="Facultad de Ciencias Empresariales, Universidad Austral" style="width: 80%; max-width: 300px;">
 </a>
 <a href="https://betasigma.tech/">
-<img src="./images/logo_beta_sigma_background.svg" alt="Beta Sigma" style="width: 50%; max-width: 300px;">
+<img src="./images/logo_beta_sigma_background.svg" alt="Beta Sigma" style="width: 20%; max-width: 300px;">
 </a>
 </div></section>
 </section>
@@ -476,11 +478,11 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="right-next"
-       href="ch1_regresion_simple/3_statistical_properties.html"
+       href="ch1_regresion_simple/3_statistical_properties_sp.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Statistical Properties of Estimated Coefficients</p>
+        <p class="prev-next-title">Propiedades Estadísticas de los Coeficientes Estimados</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
