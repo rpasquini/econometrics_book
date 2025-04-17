@@ -212,6 +212,37 @@ def create_stats_table(
 ############### INSTANCIA DE LA APP ###############
 app = Dash(__name__, suppress_callback_exceptions=True, url_base_pathname='/obv/')
 
+# Add Google Translate script to the app
+app.index_string = '''
+<!DOCTYPE html>
+<html>
+    <head>
+        {%metas%}
+        <title>{%title%}</title>
+        {%favicon%}
+        {%css%}
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'es',
+                    includedLanguages: 'en, fr, de, it, pt, ru, es, zh-CN',
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                }, 'google_translate_element');
+            }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    </head>
+    <body>
+        {%app_entry%}
+        <footer>
+            {%config%}
+            {%scripts%}
+            {%renderer%}
+        </footer>
+    </body>
+</html>
+'''
+
 ############# ELEMENTOS DE LA APP (LAYOUT) ##################
 
 # Define the layout with enhanced Dash Mantine Components
@@ -244,6 +275,11 @@ app.layout = dmc.MantineProvider(
                                     justify="space-between",
                                     children=[
                                         dmc.Title("Simulación OLS: Sesgo por Variable Omitida", order=1, style=title_style),
+                                        # Add Google Translate element
+                                        html.Div(
+                                            id="google_translate_element",
+                                            style={"marginTop": "10px"}
+                                        ),
                                     ],
                                 ),
                             ],

@@ -33,9 +33,9 @@
     python3 -m http.server 8000 
     ```
 
-* In another session deploy the 
+* In another session deploy the simulations. Don't forget the --server option! 
 
     ```
     tmux new -s simus  
-    python launcher.py 
+    python launcher.py --server
     ```
