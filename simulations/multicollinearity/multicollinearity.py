@@ -278,7 +278,7 @@ app.layout = dmc.MantineProvider(
                                 dmc.Group(
                                     justify="space-between",
                                     children=[
-                                        dmc.Title("Simulación OLS: Multicolinealidad y sus Efectos", order=1, style=title_style),
+                                        dmc.Title("Simulación OLS: Colinealidad y sus Efectos", order=1, style=title_style),
                                         # Add Google Translate element
                                         html.Div(
                                             id="google_translate_element",
@@ -301,14 +301,13 @@ app.layout = dmc.MantineProvider(
                                         dmc.AccordionPanel(
                                             dcc.Markdown(
                                                 """
-                                                Esta simulación demuestra el efecto de la multicolinealidad en los estimadores OLS $\\beta_0$, $\\beta_1$ y $\\beta_2$ en el modelo:
-                                                $$
-                                                y = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\epsilon
-                                                $$
-                                                $$
-                                                \\beta_0 = 10, \\beta_1 = 3, \\beta_2 = 5
-                                                $$
-                                                donde $x_1$ y $x_2$ son variables explicativas.
+                                                Esta simulación demuestra el efecto de la colinealidad entre dos variables explicativas en los estimadores de MCO. También permite observar el problema de colinealidad perfecta. En particular examinaremos el comportamiento de  $\\hat{\\beta_0}$, $\\hat{\\beta_1}$ y $\\hat{\\beta_2}$ en el modelo: 
+
+                                                $$Y_i = \\beta_0 + \\beta_1 X_{1,i} + \\beta_2 X_{2,i} + \\varepsilon_i$$
+
+                                                donde $Y_i$ es la variable a explicar y $X_1$ y $X_2$ son las variables explicativas.
+
+                                                En este caso, asumiremos como que $\\beta_0 = 10, \\beta_1 = 3$ y $\\beta_2 = 5$.
                                                 """,
                                                 mathjax=True
                                             )
@@ -317,6 +316,48 @@ app.layout = dmc.MantineProvider(
                                     value="intro"
                                 ),
                                 dmc.AccordionItem(
+                                    [
+                                        dmc.AccordionControl(
+                                            html.Span("Demostración del efecto de la colinealidad", style={"fontWeight": "bold", "fontSize": "18px"}),
+                                        ),
+                                        dmc.AccordionPanel(
+                                            dcc.Markdown(
+                                                """
+                                                Cuando dos variables explicativas o más están fuertemente asociadas, la estimación de MCO tiene dificultad para identificar a qué variable atribuir el efecto sobre $Y$. Una consecuencia es que la precisión del efecto específico de cada variable se reduce, lo que se refleja en un incremento del error estándar asociado. 
+
+                                                La simulación demuestra este efecto. Permite establecer el nivel de correlación en las variables explicativas. A medida que aumenta la correlación, puede observarse que las distribuciones de los valores estimados $\\beta_1$ y $\\beta_2$ y aumentan, lo que también se refleja en el desvío estándar de los valores estimados simulados.  
+
+                                                En el extremo, si el nivel de correlación es perfecto, (i.e. 1 si es positiva, o -1 si es negativa)  los histogramas dejan de funcionar,  mostrando que el nivel de desvio estándar se dispara.
+                                                """,
+                                                mathjax=True
+                                            )
+                                        ),
+                                    ],
+                                    value="collinearity_effect"
+                                ),
+                                dmc.AccordionItem(
+                                    [
+                                        dmc.AccordionControl(
+                                            html.Span("Inspeccionando la fórmula de la varianza", style={"fontWeight": "bold", "fontSize": "18px"}),
+                                        ),
+                                        dmc.AccordionPanel(
+                                            dcc.Markdown(
+                                                """
+                                                Se puede demostrar que el estimador de la varianza del parámetro estimado $\\beta_j$ es 
+
+                                                $Var(\\hat{\\beta_j})=\\frac{\\sigma^2}{SST_j(1-R^2_j)}$
+
+                                                donde $\\sigma^2$ es la varianza del error del modelo,   $SST_j$ es la variación total de X_j, y $R^2_j$ que es la medida de $R^2$ de regresar $X_k$ en el resto de las variables explicativas incluidas en el modelo (incluyendo el intercepto). La simulación en este dashboard permite cambiar el nivel de correlación, lo que impactará directamente en el $R_j^2$. 
+
+                                                Los efectos de $\\sigma^2$ y $SST_j$ fueron analizados en el [dashboard de regresión simple](https://simuecon.com/unbiasedness/).
+                                                """,
+                                                mathjax=True
+                                            )
+                                        ),
+                                    ],
+                                    value="variance_formula"
+                                ),
+                                 dmc.AccordionItem(
                                     [
                                         dmc.AccordionControl(
                                             html.Span("Metodología", style={"fontWeight": "bold", "fontSize": "18px"}),
@@ -329,12 +370,18 @@ app.layout = dmc.MantineProvider(
                                                        - Cada muestra contiene 250 observaciones.
 
                                                 2. **Modelado de variables para cada muestra:**
-                                                       - X1: Generada con distribución normal
-                                                         * Media = 10
-                                                         * Desviación estándar = 10
-                                                       - X2: Generada con distribución normal
-                                                         * Media = 10
-                                                         * Desviación estándar = 10
+                                                       - X₁ y X₂: Generadas con distribución normal multivariada
+                                                         * Media = 10 para ambas variables
+                                                         * Desviación estándar = 10 para ambas variables
+                                                         * Correlación entre X₁ y X₂: definida por el usuario mediante el slider
+                                                         * La matriz de covarianza se construye como: 
+                                                           $$
+                                                           \\begin{bmatrix} 
+                                                           10^2 & \\rho \\cdot 10^2 \\\\ 
+                                                           \\rho \\cdot 10^2 & 10^2
+                                                           \\end{bmatrix}
+                                                           $$
+                                                           donde $\\rho$ es el coeficiente de correlación seleccionado
                                                        - $\\epsilon$ (error): Generada con distribución normal
                                                          * Media = 0
                                                          * Desviación estándar = 10
@@ -353,41 +400,7 @@ app.layout = dmc.MantineProvider(
                                     ],
                                     value="methodology"
                                 ),
-                                dmc.AccordionItem(
-                                    [
-                                        dmc.AccordionControl(
-                                            html.Span("Demostración de Insesgadez", style={"fontWeight": "bold", "fontSize": "18px"}),
-                                        ),
-                                        dmc.AccordionPanel(
-                                            dcc.Markdown(
-                                                """
-                                                Los histogramas deben centrarse cerca de los valores verdaderos $(\\beta_0 = 10, \\beta_1 = 3, \\beta_2 = 5)$, demostrando insesgadez.
-                                                """,
-                                                mathjax=True
-                                            )
-                                        ),
-                                    ],
-                                    value="unbiasedness"
-                                ),
-                                dmc.AccordionItem(
-                                    [
-                                        dmc.AccordionControl(
-                                            html.Span("Determinantes de la Varianza", style={"fontWeight": "bold", "fontSize": "18px"}),
-                                        ),
-                                        dmc.AccordionPanel(
-                                            dcc.Markdown(
-                                                """
-                                                1. **Correlación entre $X_1$ y $X_2$:**
-                                                       - Aumentar la correlación entre $X_1$ y $X_2$ hace que sea más difícil distinguir los efectos individuales de cada variable.
-                                                       - Resulta en un histograma más ancho para $\\beta_1$ y $\\beta_2$.
-                                                       - Los errores estándar de $\\beta_1$ y $\\beta_2$ aumentan.
-                                                """,
-                                                mathjax=True
-                                            )
-                                        ),
-                                    ],
-                                    value="variance"
-                                ),
+
                             ],
                             value="intro"
                         ),

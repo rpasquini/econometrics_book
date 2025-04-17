@@ -1,6 +1,6 @@
 /serverinfo
 *.pem
 *.log
-/book/_build
+book/_build/
 *.pyc
 __pycache__/
