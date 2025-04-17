@@ -34,7 +34,7 @@ html:
 # Add these under the appropriate section
 html_static_path:
   - _static
-  - images
+  - _images
 
 sphinx:
   config:
