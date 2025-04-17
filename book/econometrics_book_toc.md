@@ -12,6 +12,29 @@ A través de simulaciones interactivas, este libro te permitirá visualizar y ex
 3. [Sesgo por Variable Omitida](http://simuecon.com/obv) 
 
 
-# Teaching materials (in progress)
+# Contenidos (en progreso)
 ```{tableofcontents}
 ```
+
+# Contribuyen
+
+* [Ricardo Pasquini](https://ricardopasquini.com/) 
+* [Francisco Sesto](https://github.com/franciscosesto)
+* [Octavio Santalucía](https://github.com/OctavioSantalucia)
+* [Benjamin del Pino](https://github.com/bendelpino)
+* [Juan Witstatt](https://github.com/Juanwittstatt)
+
+
+## Instituciones que nos apoyan
+
+<div style="text-align: center;">
+
+<a href="https://www.austral.edu.ar/cienciasempresariales/">
+<img src="./images/logo_empresariales_color.png" alt="Facultad de Ciencias Empresariales, Universidad Austral" style="width: 80%; max-width: 300px;">
+</a>
+
+<a href="https://betasigma.tech/">
+<img src="./images/logo_beta_sigma_background.svg" alt="Beta Sigma" style="width: 20%; max-width: 300px;">
+</a>
+
+</div>
