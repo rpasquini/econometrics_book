@@ -27,7 +27,7 @@ A través de simulaciones interactivas, este libro te permitirá visualizar y ex
 
 ## Instituciones que nos apoyan
 
-<div style="text-align: center;">
+
 
 <a href="https://www.austral.edu.ar/cienciasempresariales/">
 <img src="images/logo_empresariales_color.png" alt="Facultad de Ciencias Empresariales, Universidad Austral" style="width: 80%; max-width: 300px;">
@@ -37,4 +37,3 @@ A través de simulaciones interactivas, este libro te permitirá visualizar y ex
 <img src="images/logo_beta_sigma_background.svg" alt="Beta Sigma" style="width: 20%; max-width: 300px;">
 </a>
 
-</div>
