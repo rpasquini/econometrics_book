@@ -210,7 +210,7 @@ def create_stats_table(
 
 
 ############### INSTANCIA DE LA APP ###############
-app = Dash(__name__, suppress_callback_exceptions=True)
+app = Dash(__name__, suppress_callback_exceptions=True, url_base_pathname='/obv/')
 
 ############# ELEMENTOS DE LA APP (LAYOUT) ##################
 
@@ -527,12 +527,15 @@ if __name__ == "__main__":
     parser.add_argument('--server', action='store_true', help='Run in server mode')
     args = parser.parse_args()
     
+    # Get port from environment variable or use default
+    port = int(os.environ.get("DASH_PORT", 8066))
+    
     try:
         if args.server:
-            print("Running on server mode")
-            app.run(debug=True, host="0.0.0.0", port=8050, processes=6, threaded=False)
+            print(f"Running on server mode on port {port}")
+            app.run(debug=True, host="0.0.0.0", port=port, processes=6, threaded=False)
         else:
-            print("Running on local mode")
-            app.run_server(debug=True, port=8066, processes=6, threaded=False)
+            print(f"Running on local mode on port {port}")
+            app.run_server(debug=True, port=port, processes=6, threaded=False)
     except Exception as e:
         print(f"Application error: {e}") 

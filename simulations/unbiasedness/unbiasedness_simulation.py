@@ -207,7 +207,7 @@ def create_stats_table(
 
 
 ############### INSTANCIA DE LA APP ###############
-app = Dash(__name__, suppress_callback_exceptions=True)
+app = Dash(__name__, suppress_callback_exceptions=True, url_base_pathname='/unbiasedness/')
 
 ############# ELEMENTOS DE LA APP (LAYOUT) ##################
 
