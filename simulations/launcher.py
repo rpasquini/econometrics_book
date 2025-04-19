@@ -14,7 +14,7 @@ if __name__ == "__main__":
     dashboards = [
         ("unbiasedness/unbiasedness_simulation.py", 8001),
         ("multicollinearity/multicollinearity.py", 8002),
-        ("obv/obv.py", 8003),
+        ("ovb/ovb.py", 8003),
     ]
 
     # Start processes for each dashboard
