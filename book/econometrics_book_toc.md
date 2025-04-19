@@ -9,7 +9,7 @@ A través de simulaciones interactivas, este libro permite visualizar y experime
 
 1. [Ausencia de Sesgo y Varianza de MCO](http://simuecon.com/unbiasedness)
 2. [Efecto de la colinealidad](http://simuecon.com/multicollinearity)
-3. [Sesgo por Variable Omitida](http://simuecon.com/obv) 
+3. [Sesgo por Variable Omitida](http://simuecon.com/ovb) 
 
 
 # Contenidos (en progreso)
